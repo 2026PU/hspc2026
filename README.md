@@ -17,7 +17,7 @@
 6. 在彈出視窗中，點擊 **Commit changes** 送出。
 7. 系統會自動啟動後台建置（GitHub Actions），約 1 分鐘後，您的網站即會更新完成！
 
-- [編輯資訊](/src/data/contestData.json)
+- [編輯/更新網頁資訊](/src/data/contestData.json)
 
 ---
 
