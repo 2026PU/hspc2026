@@ -12,7 +12,13 @@
 
 1. **登入 GitHub** 並前往您的專案頁面。
 2. 點擊進入資料夾路徑：`src` ➡️ `data` ➡️ 點擊 **`contestData.json`** 檔案。
+
+   ![點擊 contestData.json](./img/1.png)
+
 3. 點擊右上角的 **✏️（編輯此檔案，Edit this file）** 按鈕。
+
+   ![點擊編輯按鈕](./img/2.png)
+
 4. 修改您要調整的欄位文字（請參考下方[最新消息更新教學](#-實戰教學如何更新最新消息news)與[欄位對照表](#-contestdatajson-欄位對照表)）。
 5. 修改完畢後，點選右上角綠色的 **Commit changes...（提交變更）**。
 6. 在彈出視窗中直接點擊 **Commit changes** 送出。
