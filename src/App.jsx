@@ -393,7 +393,7 @@ function App() {
                 </h3>
                 <ul className="bullet-list" style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <li><strong>參加對象：</strong>{data.contestInfo.target}</li>
-                  <li><strong>組隊方式：</strong>{data.contestInfo.teamRule}（可設指導老師一名）</li>
+                  <li><strong>組隊方式：</strong>{data.contestInfo.teamRule}<span style={{ color: '#dc2626' }}>(每組至少一位成員必須參加工作坊)</span>（可設指導老師一名）</li>
                   <li><strong>程式語言：</strong>{data.contestInfo.languages}</li>
                   <li><strong>工作坊安排：</strong>{data.contestInfo.workshop}（提供程式能力與解題培訓）</li>
                 </ul>
