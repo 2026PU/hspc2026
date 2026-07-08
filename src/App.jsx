@@ -437,7 +437,7 @@ function App() {
                       }}>
                         {idx + 1}
                       </span>
-                      <span style={{ color: '#dc2626', fontSize: '1rem', lineHeight: '1.6' }}>
+                      <span style={{ color: rule.includes('工作坊') ? '#dc2626' : 'var(--text-primary)', fontSize: '1rem', lineHeight: '1.6' }}>
                         {rule}
                       </span>
                     </li>
