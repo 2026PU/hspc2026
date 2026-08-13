@@ -86,16 +86,16 @@
     "compilers": [
       {
         "name": "C/C++",
-        "detail": "GCC / G++ 13.2.0 (MinGW-w64 / GCC in Linux)"
+        "detail": "Dev-C++ 6.3"
       },
-      { "name": "Java", "detail": "OpenJDK 21 (LTS)" },
-      { "name": "Python", "detail": "Python 3.12.x (含 standard libraries)" }
+      { "name": "Java", "detail": "Java(TM)SE Development kit 25.0.1" },
+      { "name": "Python", "detail": "Python 3.12.3 (含 standard libraries)" }
     ],
     "editors": [
-      "Visual Studio Code (已安裝 C/C++, Extension Pack for Java, Python 延伸模組)",
-      "Dev-C++ 6.3 (含 GCC)",
+      "Visual Studio Code (已安裝 C/C++, Extension Pack for Java, Python 延伸模組,1.119.0)",
+      "Dev-C++ 6.3 (含 GCC,5.11)",
       "Code::Blocks 20.03",
-      "Eclipse IDE for Java Developers"
+      "Eclipse IDE for Java Developers,2024-09-4.33.0"
     ],
     "notes": "競賽平台將採用 PC2 或 DOMjudge 系統進行評測。參賽者僅能使用主辦單位提供之本機開發工具，不得連接外部網路或使用未授權之隨身碟。"
   },
