@@ -408,7 +408,7 @@ function App() {
                   <li><strong>第一名 (金獎)：</strong>每隊可獲得新台幣 <strong>12,000 元</strong>之獎金</li>
                   <li><strong>第二名 (銀獎)：</strong>每隊可獲得新台幣 <strong>9,000 元</strong>之獎金</li>
                   <li><strong>第三名 (銅獎)：</strong>每隊可獲得新台幣 <strong>6,000 元</strong>之獎金</li>
-                  <li><strong>佳作組別 (五組)：</strong>每組可獲得新台幣 <strong>3,000 元</strong>之獎金</li>
+                  <li><strong>佳作組別 (若干組)：</strong>每組可獲得新台幣 <strong>3,000 元</strong>之獎金</li>
                 </ul>
               </div>
             </div>
