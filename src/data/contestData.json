@@ -366,9 +366,9 @@
         "rank": 1,
         "award": "金獎",
         "awardIcon": "🥇",
-        "teamNo": "S01",
-        "teamName": "萍水相逢打完散",
-        "school": "復旦高中",
+        "teamNo": "S02",
+        "teamName": "Beyond",
+        "school": "僑泰高中",
         "prize": "新台幣 12,000 元",
         "solved": 0,
         "penalty": 0
@@ -473,9 +473,9 @@
     "scoreboard": [
       {
         "rank": 1,
-        "teamNo": "S01",
-        "teamName": "萍水相逢打完散",
-        "school": "復旦高中",
+        "teamNo": "S02",
+        "teamName": "Beyond",
+        "school": "僑泰高中",
         "solved": 0,
         "penalty": 0,
         "award": "金獎",
