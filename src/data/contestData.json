@@ -13,19 +13,19 @@
   },
   "contestInfo": {
     "target": "全國高中(職)學生",
-    "teamRule": "每隊三位成員，預計錄取 40 支隊伍",
+    "teamRule": "每隊三位成員，預計錄取 40 支隊伍(每組至少一位成員必須參加工作坊)",
     "languages": "C/C++, Java, Python",
     "workshop": "8/24-8/25 競技程式工作坊"
   },
   "registration": {
-    "period": "即日起 ~ 115年7月23日 (四) 止",
-    "formLink": "https://docs.google.com/forms/d/1GsyM5ZwfFaYq0U7wP1TUmQebNoKNNRIjfisMiXbKJXo/edit",
+    "period": "即日起 ~ ",
+    "formLink": "https://docs.google.com/forms/d/e/1FAIpQLSfE6jq3HD0x4dVf6z2Jp1C1OwnEDSnDL7Xw1gT7IeK6opLAKg/viewform?usp=dialog",
     "qrCodeUrl": "",
     "fee": "免費報名",
     "groups": [
       {
         "name": "高中職組",
-        "link": "https://docs.google.com/forms/d/1GsyM5ZwfFaYq0U7wP1TUmQebNoKNNRIjfisMiXbKJXo/viewform",
+        "link": "https://docs.google.com/forms/d/e/1FAIpQLSfE6jq3HD0x4dVf6z2Jp1C1OwnEDSnDL7Xw1gT7IeK6opLAKg/viewform?usp=dialog",
         "status": "開放中"
       }
     ]
@@ -76,7 +76,7 @@
     {
       "id": 2,
       "date": "2026-07-01",
-      "title": "【重要日程】報名截止於 7/23 (四)",
+      "title": "【重要日程】報名截止於 7/23 (四)，(延長至7/30日)",
       "content": "請注意，線上組隊報名截止時間為 2026年7月23日 (星期四)。請有興趣的同學儘速完成報名表單填寫。",
       "url": ""
     }
@@ -86,16 +86,15 @@
     "compilers": [
       {
         "name": "C/C++",
-        "detail": "GCC / G++ 13.2.0 (MinGW-w64 / GCC in Linux)"
+        "detail": "Dev-C++ 5.11"
       },
-      { "name": "Java", "detail": "OpenJDK 21 (LTS)" },
-      { "name": "Python", "detail": "Python 3.12.x (含 standard libraries)" }
+      { "name": "Java", "detail": "Java(TM)SE Development kit 25.0.1" },
+      { "name": "Python", "detail": "Python 3.12.3 (含 standard libraries)" }
     ],
     "editors": [
-      "Visual Studio Code (已安裝 C/C++, Extension Pack for Java, Python 延伸模組)",
-      "Dev-C++ 6.3 (含 GCC)",
-      "Code::Blocks 20.03",
-      "Eclipse IDE for Java Developers"
+      "Visual Studio Code (已安裝 C/C++, Extension Pack for Java, Python 延伸模組,1.119.0)",
+      "Dev-C++ 5.11 (含 GCC)",
+      "Eclipse IDE for Java Developers,2024-09-4.33.0"
     ],
     "notes": "競賽平台將採用 PC2 或 DOMjudge 系統進行評測。參賽者僅能使用主辦單位提供之本機開發工具，不得連接外部網路或使用未授權之隨身碟。"
   },
@@ -183,7 +182,7 @@
     }
   ],
   "rules": [
-    "競賽試題以中文命題（評判系統提供線上英漢字典），試題至少 7 題。",
+    "競賽試題以中文命題（評判系統提供線上英漢字典），試題至少 6 題。",
     "競賽時間以4小時為原則；如遇特殊狀況，承辦單位得延長或縮短競賽時間。",
     "解題語言為：C/C++、Java、Python。",
     "本競賽採用ICPC的評分方式，參賽隊伍以答對的題數及答對題目耗費的時間總和作為評定名次的主要依據。（答對題目耗費的時間總和，為競賽開始至送繳答案所經過的時間，再加上該題已送繳且被評審為錯誤的次數乘以 20 分鐘，答錯的題目所耗費之時間不計）。",
