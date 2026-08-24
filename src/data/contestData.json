@@ -1,7 +1,7 @@
 {
   "_comment": "這是網頁資料設定檔，若要更新網頁內容，請直接修改底下的對應欄位值。詳細說明請參考專案根目錄的 README.md。",
   "_results_announcement_toggle": "【成績公佈開關】：將底下的 isAnnounced 設為 true 即公佈得獎名單；設為 false 即不公佈（目前為 false 不公佈）。",
-  "isAnnounced": false,
+  "isAnnounced": true,
   "adminPassword": "hspc2026",
   "contest": {
     "year": "2026",
@@ -98,8 +98,14 @@
         "name": "C/C++",
         "detail": "Dev-C++ 5.11"
       },
-      { "name": "Java", "detail": "Java(TM)SE Development kit 25.0.1" },
-      { "name": "Python", "detail": "Python 3.12.3 (含 standard libraries)" }
+      {
+        "name": "Java",
+        "detail": "Java(TM)SE Development kit 25.0.1"
+      },
+      {
+        "name": "Python",
+        "detail": "Python 3.12.3 (含 standard libraries)"
+      }
     ],
     "editors": [
       "Visual Studio Code (已安裝 C/C++, Extension Pack for Java, Python 延伸模組,1.119.0)",
@@ -113,34 +119,82 @@
       "date": "8/24 (一)",
       "title": "競技程式工作坊 (第一天)",
       "items": [
-        { "time": "08:30-09:00", "event": "報到" },
-        { "time": "09:00-12:00", "event": "程式小學堂" },
-        { "time": "12:00-13:00", "event": "午休" },
-        { "time": "13:00-16:00", "event": "解題小尖兵" }
+        {
+          "time": "08:30-09:00",
+          "event": "報到"
+        },
+        {
+          "time": "09:00-12:00",
+          "event": "程式小學堂"
+        },
+        {
+          "time": "12:00-13:00",
+          "event": "午休"
+        },
+        {
+          "time": "13:00-16:00",
+          "event": "解題小尖兵"
+        }
       ]
     },
     {
       "date": "8/25 (二)",
       "title": "競技程式工作坊 (第二天)",
       "items": [
-        { "time": "09:00-12:00", "event": "競技大反攻" },
-        { "time": "12:00-13:00", "event": "午休" },
-        { "time": "13:00-16:00", "event": "程式競技模擬排名賽" }
+        {
+          "time": "09:00-12:00",
+          "event": "競技大反攻"
+        },
+        {
+          "time": "12:00-13:00",
+          "event": "午休"
+        },
+        {
+          "time": "13:00-16:00",
+          "event": "程式競技模擬排名賽"
+        }
       ]
     },
     {
       "date": "8/26 (三)",
       "title": "全國高中職程式設計競賽 (競賽當日)",
       "items": [
-        { "time": "09:00-09:30", "event": "報到" },
-        { "time": "09:30-10:00", "event": "開幕式與賽前說明" },
-        { "time": "10:10-11:00", "event": "環境測試" },
-        { "time": "11:10-12:00", "event": "午休與環境重置 (供便當)" },
-        { "time": "12:00-12:30", "event": "入場與身份查驗 (採團體查驗)" },
-        { "time": "12:30-16:30", "event": "競賽時間" },
-        { "time": "16:30-16:50", "event": "評審會議" },
-        { "time": "16:50-17:30", "event": "頒獎典禮" },
-        { "time": "17:30～", "event": "賦歸" }
+        {
+          "time": "09:00-09:30",
+          "event": "報到"
+        },
+        {
+          "time": "09:30-10:00",
+          "event": "開幕式與賽前說明"
+        },
+        {
+          "time": "10:10-11:00",
+          "event": "環境測試"
+        },
+        {
+          "time": "11:10-12:00",
+          "event": "午休與環境重置 (供便當)"
+        },
+        {
+          "time": "12:00-12:30",
+          "event": "入場與身份查驗 (採團體查驗)"
+        },
+        {
+          "time": "12:30-16:30",
+          "event": "競賽時間"
+        },
+        {
+          "time": "16:30-16:50",
+          "event": "評審會議"
+        },
+        {
+          "time": "16:50-17:30",
+          "event": "頒獎典禮"
+        },
+        {
+          "time": "17:30～",
+          "event": "賦歸"
+        }
       ]
     }
   ],
@@ -204,22 +258,58 @@
   ],
   "faq": [],
   "results": {
-    "isAnnounced": false,
-    "status": "待公佈",
+    "isAnnounced": true,
+    "status": "已公佈",
     "certificateNotice": "獎狀將另行以紙本寄送，預計 7 個工作天。",
     "certificateDetails": "本屆競賽獎狀將於賽後成績審查公告後，另行以紙本公文方式寄送至各校教務處/指導單位，預計於 7 個工作天內寄達，請各參賽隊伍留意收件。",
     "publishDate": "115年08月26日 (賽後公佈)",
     "statusMessage": "2026 HSPC 競賽成績與得獎名單目前正由評審委員會統計審核中，將於評審會議結束後正式公佈，敬請期待！",
     "teamsList": [
-      { "teamNo": "S01", "teamName": "萍水相逢打完散", "school": "復旦高中" },
-      { "teamNo": "S02", "teamName": "Beyond", "school": "僑泰高中" },
-      { "teamNo": "S03", "teamName": "旗開得勝", "school": "新北高工" },
-      { "teamNo": "S04", "teamName": "一定都隊", "school": "國立彰化高中" },
-      { "teamNo": "S05", "teamName": "FIRST", "school": "新民高中" },
-      { "teamNo": "S06", "teamName": "BS", "school": "新民高中" },
-      { "teamNo": "S07", "teamName": "我們以下都是麻糬", "school": "內壢高中" },
-      { "teamNo": "S08", "teamName": "新社高中", "school": "新社高中" },
-      { "teamNo": "S09", "teamName": "花態柳情山容水意", "school": "清水高中" }
+      {
+        "teamNo": "S01",
+        "teamName": "萍水相逢打完散",
+        "school": "復旦高中"
+      },
+      {
+        "teamNo": "S02",
+        "teamName": "Beyond",
+        "school": "僑泰高中"
+      },
+      {
+        "teamNo": "S03",
+        "teamName": "旗開得勝",
+        "school": "新北高工"
+      },
+      {
+        "teamNo": "S04",
+        "teamName": "一定都隊",
+        "school": "國立彰化高中"
+      },
+      {
+        "teamNo": "S05",
+        "teamName": "FIRST",
+        "school": "新民高中"
+      },
+      {
+        "teamNo": "S06",
+        "teamName": "BS",
+        "school": "新民高中"
+      },
+      {
+        "teamNo": "S07",
+        "teamName": "我們以下都是麻糬",
+        "school": "內壢高中"
+      },
+      {
+        "teamNo": "S08",
+        "teamName": "新社高中",
+        "school": "新社高中"
+      },
+      {
+        "teamNo": "S09",
+        "teamName": "花態柳情山容水意",
+        "school": "清水高中"
+      }
     ],
     "seatingChart": {
       "location": "靜宜大學 主顧樓 3 樓 (主顧 316 電腦教室)",
@@ -227,11 +317,48 @@
       "totalTeams": 9,
       "rules": "每隊 3 位成員於指定組別座位入座，每隊共用 1 部承辦單位提供之電腦。",
       "rows": [
-        { "row": 1, "type": "generic", "label": "第 1 排", "desc": "預備席" },
-        { "row": 2, "type": "teams", "label": "第 2 排", "teamNos": ["S01", "S02", "S03"] },
-        { "row": 3, "type": "teams", "label": "第 3 排", "teamNos": ["S04", "S05", "S06"] },
-        { "row": 4, "type": "teams", "label": "第 4 排", "teamNos": ["S07", "S08", "S09"] },
-        { "row": 5, "type": "generic", "label": "第 5 排", "desc": "預備席" }
+        {
+          "row": 1,
+          "type": "generic",
+          "label": "第 1 排",
+          "desc": "預備席"
+        },
+        {
+          "row": 2,
+          "type": "teams",
+          "label": "第 2 排",
+          "teamNos": [
+            "S01",
+            "S02",
+            "S03"
+          ]
+        },
+        {
+          "row": 3,
+          "type": "teams",
+          "label": "第 3 排",
+          "teamNos": [
+            "S04",
+            "S05",
+            "S06"
+          ]
+        },
+        {
+          "row": 4,
+          "type": "teams",
+          "label": "第 4 排",
+          "teamNos": [
+            "S07",
+            "S08",
+            "S09"
+          ]
+        },
+        {
+          "row": 5,
+          "type": "generic",
+          "label": "第 5 排",
+          "desc": "預備席"
+        }
       ]
     },
     "awards": [
@@ -239,9 +366,9 @@
         "rank": 1,
         "award": "金獎",
         "awardIcon": "🥇",
-        "teamNo": "",
-        "teamName": "",
-        "school": "",
+        "teamNo": "S01",
+        "teamName": "萍水相逢打完散",
+        "school": "復旦高中",
         "prize": "新台幣 12,000 元",
         "solved": 0,
         "penalty": 0
@@ -335,159 +462,382 @@
         "penalty": 0
       }
     ],
-    "problemsList": ["A", "B", "C", "D", "E", "F"],
+    "problemsList": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+    ],
     "scoreboard": [
       {
         "rank": 1,
-        "teamNo": "",
-        "teamName": "",
-        "school": "",
+        "teamNo": "S01",
+        "teamName": "萍水相逢打完散",
+        "school": "復旦高中",
         "solved": 0,
         "penalty": 0,
         "award": "金獎",
         "problems": {
-          "A": { "solved": false, "time": 0, "tries": 0 },
-          "B": { "solved": false, "time": 0, "tries": 0 },
-          "C": { "solved": false, "time": 0, "tries": 0 },
-          "D": { "solved": false, "time": 0, "tries": 0 },
-          "E": { "solved": false, "time": 0, "tries": 0 },
-          "F": { "solved": false, "time": 0, "tries": 0 }
+          "A": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "B": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "C": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "D": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "E": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "F": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          }
         }
       },
       {
         "rank": 2,
-        "teamNo": "",
+        "teamNo": "S02",
         "teamName": "",
         "school": "",
         "solved": 0,
         "penalty": 0,
         "award": "銀獎",
         "problems": {
-          "A": { "solved": false, "time": 0, "tries": 0 },
-          "B": { "solved": false, "time": 0, "tries": 0 },
-          "C": { "solved": false, "time": 0, "tries": 0 },
-          "D": { "solved": false, "time": 0, "tries": 0 },
-          "E": { "solved": false, "time": 0, "tries": 0 },
-          "F": { "solved": false, "time": 0, "tries": 0 }
+          "A": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "B": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "C": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "D": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "E": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "F": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          }
         }
       },
       {
         "rank": 3,
-        "teamNo": "",
+        "teamNo": "S03",
         "teamName": "",
         "school": "",
         "solved": 0,
         "penalty": 0,
         "award": "銅獎",
         "problems": {
-          "A": { "solved": false, "time": 0, "tries": 0 },
-          "B": { "solved": false, "time": 0, "tries": 0 },
-          "C": { "solved": false, "time": 0, "tries": 0 },
-          "D": { "solved": false, "time": 0, "tries": 0 },
-          "E": { "solved": false, "time": 0, "tries": 0 },
-          "F": { "solved": false, "time": 0, "tries": 0 }
+          "A": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "B": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "C": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "D": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "E": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "F": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          }
         }
       },
       {
         "rank": 4,
-        "teamNo": "",
+        "teamNo": "S04",
         "teamName": "",
         "school": "",
         "solved": 0,
         "penalty": 0,
         "award": "佳作",
         "problems": {
-          "A": { "solved": false, "time": 0, "tries": 0 },
-          "B": { "solved": false, "time": 0, "tries": 0 },
-          "C": { "solved": false, "time": 0, "tries": 0 },
-          "D": { "solved": false, "time": 0, "tries": 0 },
-          "E": { "solved": false, "time": 0, "tries": 0 },
-          "F": { "solved": false, "time": 0, "tries": 0 }
+          "A": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "B": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "C": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "D": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "E": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "F": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          }
         }
       },
       {
         "rank": 5,
-        "teamNo": "",
+        "teamNo": "S05",
         "teamName": "",
         "school": "",
         "solved": 0,
         "penalty": 0,
         "award": "佳作",
         "problems": {
-          "A": { "solved": false, "time": 0, "tries": 0 },
-          "B": { "solved": false, "time": 0, "tries": 0 },
-          "C": { "solved": false, "time": 0, "tries": 0 },
-          "D": { "solved": false, "time": 0, "tries": 0 },
-          "E": { "solved": false, "time": 0, "tries": 0 },
-          "F": { "solved": false, "time": 0, "tries": 0 }
+          "A": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "B": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "C": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "D": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "E": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "F": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          }
         }
       },
       {
         "rank": 6,
-        "teamNo": "",
+        "teamNo": "S06",
         "teamName": "",
         "school": "",
         "solved": 0,
         "penalty": 0,
         "award": "佳作",
         "problems": {
-          "A": { "solved": false, "time": 0, "tries": 0 },
-          "B": { "solved": false, "time": 0, "tries": 0 },
-          "C": { "solved": false, "time": 0, "tries": 0 },
-          "D": { "solved": false, "time": 0, "tries": 0 },
-          "E": { "solved": false, "time": 0, "tries": 0 },
-          "F": { "solved": false, "time": 0, "tries": 0 }
+          "A": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "B": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "C": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "D": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "E": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "F": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          }
         }
       },
       {
         "rank": 7,
-        "teamNo": "",
+        "teamNo": "S07",
         "teamName": "",
         "school": "",
         "solved": 0,
         "penalty": 0,
         "award": "佳作",
         "problems": {
-          "A": { "solved": false, "time": 0, "tries": 0 },
-          "B": { "solved": false, "time": 0, "tries": 0 },
-          "C": { "solved": false, "time": 0, "tries": 0 },
-          "D": { "solved": false, "time": 0, "tries": 0 },
-          "E": { "solved": false, "time": 0, "tries": 0 },
-          "F": { "solved": false, "time": 0, "tries": 0 }
+          "A": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "B": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "C": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "D": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "E": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "F": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          }
         }
       },
       {
         "rank": 8,
-        "teamNo": "",
+        "teamNo": "S08",
         "teamName": "",
         "school": "",
         "solved": 0,
         "penalty": 0,
         "award": "佳作",
         "problems": {
-          "A": { "solved": false, "time": 0, "tries": 0 },
-          "B": { "solved": false, "time": 0, "tries": 0 },
-          "C": { "solved": false, "time": 0, "tries": 0 },
-          "D": { "solved": false, "time": 0, "tries": 0 },
-          "E": { "solved": false, "time": 0, "tries": 0 },
-          "F": { "solved": false, "time": 0, "tries": 0 }
+          "A": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "B": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "C": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "D": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "E": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "F": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          }
         }
       },
       {
         "rank": 9,
-        "teamNo": "",
+        "teamNo": "S09",
         "teamName": "",
         "school": "",
         "solved": 0,
         "penalty": 0,
         "award": "參賽證明",
         "problems": {
-          "A": { "solved": false, "time": 0, "tries": 0 },
-          "B": { "solved": false, "time": 0, "tries": 0 },
-          "C": { "solved": false, "time": 0, "tries": 0 },
-          "D": { "solved": false, "time": 0, "tries": 0 },
-          "E": { "solved": false, "time": 0, "tries": 0 },
-          "F": { "solved": false, "time": 0, "tries": 0 }
+          "A": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "B": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "C": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "D": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "E": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          },
+          "F": {
+            "solved": false,
+            "time": 0,
+            "tries": 0
+          }
         }
       }
     ]
