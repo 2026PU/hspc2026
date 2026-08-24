@@ -79,6 +79,13 @@
       "title": "【重要日程】報名截止於 7/23 (四)，(延長至7/30日)",
       "content": "請注意，線上組隊報名截止時間為 2026年7月23日 (星期四)。請有興趣的同學儘速完成報名表單填寫。",
       "url": ""
+    },
+    {
+      "id": 3,
+      "date": "2026-08-26",
+      "title": "【賽事公告】2026 HSPC 得獎名單及成績即將公佈",
+      "content": "2026 HSPC 全國高中職程式設計競賽得獎名單與成績正在統計評定中，將於評審會議結束後正式公告。獎狀將另行以紙本寄送，預計 7 個工作天。",
+      "url": "#results"
     }
   ],
   "environment": {
@@ -192,5 +199,27 @@
     "每組至少一位成員要參加工作坊。",
     "本比賽規則若有未盡事宜，得由承辦單位視實際狀況酌情處理之。"
   ],
-  "faq": []
+  "faq": [],
+  "results": {
+    "isAnnounced": false,
+    "status": "待公佈",
+    "certificateNotice": "獎狀將另行以紙本寄送，預計 7 個工作天。",
+    "certificateDetails": "本屆競賽獎狀將於賽後成績審查公告後，另行以紙本公文方式寄送至各校教務處/指導單位，預計於 7 個工作天內寄達，請各參賽隊伍留意收件。",
+    "publishDate": "115年08月26日 (賽後公佈)",
+    "statusMessage": "2026 HSPC 競賽成績與得獎名單目前正由評審委員會統計審核中，將於評審會議結束後正式公佈，敬請期待！",
+    "teamsList": [
+      { "teamNo": "S01", "teamName": "萍水相逢打完散", "school": "復旦高中" },
+      { "teamNo": "S02", "teamName": "Beyond", "school": "僑泰高中" },
+      { "teamNo": "S03", "teamName": "旗開得勝", "school": "新北市立新北高工" },
+      { "teamNo": "S04", "teamName": "一定都隊", "school": "國立彰化高級中學" },
+      { "teamNo": "S05", "teamName": "FIRST", "school": "新民高中" },
+      { "teamNo": "S06", "teamName": "BS", "school": "新民高中" },
+      { "teamNo": "S07", "teamName": "我們以下都是麻糬", "school": "桃園市立內壢高級中等學校" },
+      { "teamNo": "S08", "teamName": "新社高中", "school": "新社高中" },
+      { "teamNo": "S09", "teamName": "花態柳情山容水意", "school": "臺中市立清水高中" }
+    ],
+    "awards": [],
+    "problemsList": ["A", "B", "C", "D", "E", "F"],
+    "scoreboard": []
+  }
 }

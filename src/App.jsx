@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import data from './data/contestData.json'
 import './App.css'
 
@@ -9,19 +9,85 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('')
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
+  const [scoreboardFilter, setScoreboardFilter] = useState('')
+
+  // View state: 'home' or 'results'
+  const [currentView, setCurrentView] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.toLowerCase()
+      if (hash === '#results' || hash === '#/results') {
+        return 'results'
+      }
+    }
+    return 'home'
+  })
+
+  // Sync hash routing
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.toLowerCase()
+      if (hash === '#results' || hash === '#/results') {
+        setCurrentView('results')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else {
+        setCurrentView('home')
+        if (hash && hash !== '#' && hash !== '#/' && hash !== '#home') {
+          const id = hash.replace(/^#\/?/, '')
+          setTimeout(() => {
+            const el = document.getElementById(id)
+            if (el) el.scrollIntoView({ behavior: 'smooth' })
+          }, 50)
+        }
+      }
+    }
+
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
+
+  // Navigation handler
+  const navigateTo = (view, sectionId = null) => {
+    setIsMobileMenuOpen(false)
+    setIsRegDropdownOpen(false)
+
+    if (view === 'results') {
+      window.location.hash = '#results'
+      setCurrentView('results')
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else {
+      if (currentView !== 'home') {
+        setCurrentView('home')
+        if (sectionId) {
+          window.location.hash = `#${sectionId}`
+          setTimeout(() => {
+            const el = document.getElementById(sectionId)
+            if (el) el.scrollIntoView({ behavior: 'smooth' })
+          }, 50)
+        } else {
+          window.location.hash = '#home'
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+      } else {
+        if (sectionId) {
+          const el = document.getElementById(sectionId)
+          if (el) el.scrollIntoView({ behavior: 'smooth' })
+        } else {
+          const el = document.getElementById('home')
+          if (el) el.scrollIntoView({ behavior: 'smooth' })
+        }
+      }
+    }
+  }
 
   // Smooth scroll to element and close mobile menu
   const scrollToSection = (id) => {
-    setIsMobileMenuOpen(false)
-    setIsRegDropdownOpen(false)
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
+    navigateTo('home', id)
   }
 
   // Monitor scroll to set active nav link
   useEffect(() => {
+    if (currentView !== 'home') return
+
     const handleScroll = () => {
       const sections = ['home', 'news', 'info', 'environment', 'schedule', 'past-problems', 'location', 'faq', 'contact']
       const scrollPosition = window.scrollY + 200
@@ -41,7 +107,7 @@ function App() {
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [currentView])
 
   const toggleFaq = (index) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index)
@@ -51,16 +117,62 @@ function App() {
   const handleSearchSubmit = (e) => {
     e.preventDefault()
     if (!searchQuery.trim()) return
-    alert(`搜尋功能模擬：正在搜尋「${searchQuery}」...（在實際環境中可串接全文字檢索）`)
+    const query = searchQuery.trim().toLowerCase()
     setIsSearchOpen(false)
+    if (query.includes('成績') || query.includes('得獎') || query.includes('名單') || query.includes('金獎') || query.includes('銀獎') || query.includes('銅獎') || query.includes('佳作') || query.includes('獎狀')) {
+      navigateTo('results')
+    } else {
+      alert(`搜尋功能模擬：正在搜尋「${searchQuery}」...（您可在「得獎名單」頁面查看完整賽事成績與得獎名單）`)
+    }
   }
+
+  const isAnnounced = Boolean(data.results?.isAnnounced && data.results?.awards && data.results.awards.length > 0)
+
+  // Filter scoreboard items
+  const filteredScoreboard = useMemo(() => {
+    if (!data.results || !data.results.scoreboard) return []
+    if (!scoreboardFilter.trim()) return data.results.scoreboard
+    const term = scoreboardFilter.trim().toLowerCase()
+    return data.results.scoreboard.filter(
+      (item) =>
+        item.teamName.toLowerCase().includes(term) ||
+        item.school.toLowerCase().includes(term) ||
+        item.teamNo.toLowerCase().includes(term) ||
+        (item.award && item.award.toLowerCase().includes(term))
+    )
+  }, [scoreboardFilter])
+
+  // Filter teams list when pending announcement
+  const filteredTeamsList = useMemo(() => {
+    if (!data.results || !data.results.teamsList) return []
+    if (!scoreboardFilter.trim()) return data.results.teamsList
+    const term = scoreboardFilter.trim().toLowerCase()
+    return data.results.teamsList.filter(
+      (item) =>
+        item.teamName.toLowerCase().includes(term) ||
+        item.school.toLowerCase().includes(term) ||
+        item.teamNo.toLowerCase().includes(term)
+    )
+  }, [scoreboardFilter])
+
+  // Podium awards (Top 3)
+  const podiumAwards = useMemo(() => {
+    if (!data.results || !data.results.awards) return []
+    return data.results.awards.filter((a) => a.rank <= 3)
+  }, [])
+
+  // Honorable mentions (Rank > 3)
+  const honorableAwards = useMemo(() => {
+    if (!data.results || !data.results.awards) return []
+    return data.results.awards.filter((a) => a.rank > 3)
+  }, [])
 
   return (
     <>
       {/* Header and Sticky Navigation Bar */}
       <header className="header">
         <div className="header-container container">
-          <div className="logo-section" onClick={() => scrollToSection('home')} style={{ cursor: 'pointer' }}>
+          <div className="logo-section" onClick={() => navigateTo('home', 'home')} style={{ cursor: 'pointer' }}>
             <img src="./provident_university.png" alt="靜宜大學 Logo" className="logo-img" />
             <span className="logo-title">靜宜大學</span>
           </div>
@@ -70,16 +182,16 @@ function App() {
             <ul className={`nav-menu ${isMobileMenuOpen ? 'open' : ''}`}>
               <li>
                 <span
-                  className={`nav-link ${activeSection === 'home' ? 'active' : ''}`}
-                  onClick={() => scrollToSection('home')}
+                  className={`nav-link ${currentView === 'home' && activeSection === 'home' ? 'active' : ''}`}
+                  onClick={() => navigateTo('home', 'home')}
                 >
                   首頁
                 </span>
               </li>
               <li>
                 <span
-                  className={`nav-link ${activeSection === 'news' ? 'active' : ''}`}
-                  onClick={() => scrollToSection('news')}
+                  className={`nav-link ${currentView === 'home' && activeSection === 'news' ? 'active' : ''}`}
+                  onClick={() => navigateTo('home', 'news')}
                 >
                   最新消息
                 </span>
@@ -93,7 +205,7 @@ function App() {
                     if (window.innerWidth <= 768) {
                       setIsRegDropdownOpen(!isRegDropdownOpen)
                     } else {
-                      scrollToSection('home')
+                      navigateTo('home', 'home')
                     }
                   }}
                 >
@@ -104,63 +216,74 @@ function App() {
                     <a href={data.registration.formLink} target="_blank" rel="noopener noreferrer">線上報名</a>
                   </li>
                   <li className="dropdown-item">
-                    <a href="#faq" onClick={(e) => { e.preventDefault(); scrollToSection('faq'); }}>常見問題</a>
+                    <a href="#faq" onClick={(e) => { e.preventDefault(); navigateTo('home', 'faq'); }}>常見問題</a>
                   </li>
                 </ul>
               </li>
 
               <li>
                 <span
-                  className={`nav-link ${activeSection === 'info' ? 'active' : ''}`}
-                  onClick={() => scrollToSection('info')}
+                  className={`nav-link ${currentView === 'home' && activeSection === 'info' ? 'active' : ''}`}
+                  onClick={() => navigateTo('home', 'info')}
                 >
                   競賽資訊
                 </span>
               </li>
               <li>
                 <span
-                  className={`nav-link ${activeSection === 'environment' ? 'active' : ''}`}
-                  onClick={() => scrollToSection('environment')}
+                  className={`nav-link ${currentView === 'home' && activeSection === 'environment' ? 'active' : ''}`}
+                  onClick={() => navigateTo('home', 'environment')}
                 >
                   競賽環境
                 </span>
               </li>
               <li>
                 <span
-                  className={`nav-link ${activeSection === 'schedule' ? 'active' : ''}`}
-                  onClick={() => scrollToSection('schedule')}
+                  className={`nav-link ${currentView === 'home' && activeSection === 'schedule' ? 'active' : ''}`}
+                  onClick={() => navigateTo('home', 'schedule')}
                 >
                   競賽行程
                 </span>
               </li>
               <li>
                 <span
-                  className={`nav-link ${activeSection === 'past-problems' ? 'active' : ''}`}
-                  onClick={() => scrollToSection('past-problems')}
+                  className={`nav-link ${currentView === 'home' && activeSection === 'past-problems' ? 'active' : ''}`}
+                  onClick={() => navigateTo('home', 'past-problems')}
                 >
                   歷屆考題
                 </span>
               </li>
               <li>
                 <span
-                  className={`nav-link ${activeSection === 'location' ? 'active' : ''}`}
-                  onClick={() => scrollToSection('location')}
+                  className={`nav-link ${currentView === 'home' && activeSection === 'location' ? 'active' : ''}`}
+                  onClick={() => navigateTo('home', 'location')}
                 >
                   活動地點
                 </span>
               </li>
               <li>
                 <span
-                  className={`nav-link ${activeSection === 'faq' ? 'active' : ''}`}
-                  onClick={() => scrollToSection('faq')}
+                  className={`nav-link ${currentView === 'home' && activeSection === 'faq' ? 'active' : ''}`}
+                  onClick={() => navigateTo('home', 'faq')}
                 >
                   常見問題Q_A
                 </span>
               </li>
+
+              {/* Awards / Results Navigation Link */}
               <li>
                 <span
-                  className={`nav-link ${activeSection === 'contact' ? 'active' : ''}`}
-                  onClick={() => scrollToSection('contact')}
+                  className={`nav-link nav-link-results-tab ${currentView === 'results' ? 'active' : ''}`}
+                  onClick={() => navigateTo('results')}
+                >
+                  🏆 得獎名單
+                </span>
+              </li>
+
+              <li>
+                <span
+                  className={`nav-link ${currentView === 'home' && activeSection === 'contact' ? 'active' : ''}`}
+                  onClick={() => navigateTo('home', 'contact')}
                 >
                   聯絡資訊
                 </span>
@@ -168,7 +291,7 @@ function App() {
 
               {/* Search Toggle in navbar */}
               <li>
-                <div className="nav-search" onClick={() => setIsSearchOpen(true)}>
+                <div className="nav-search" onClick={() => setIsSearchOpen(true)} title="站內搜尋">
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24">
                     <circle cx="11" cy="11" r="8"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -190,7 +313,9 @@ function App() {
       </header>
 
       <main>
-        {/* Hero Section */}
+        {currentView === 'home' ? (
+          <>
+            {/* Hero Section */}
         <section
           id="home"
           className="hero fade-in"
@@ -206,6 +331,20 @@ function App() {
             <div className="hero-subtitle">{data.contest.englishTitle}</div>
             <div className="hero-tag">HSPC {data.contest.year}</div>
             <div className="hero-date-badge">競賽日期：{data.contest.dateDisplay}</div>
+
+            {/* Quick Button to Results Page */}
+            {data.results && (
+              <div style={{ marginTop: '20px' }}>
+                <button
+                  onClick={() => navigateTo('results')}
+                  className="btn btn-results-hero"
+                >
+                  {isAnnounced
+                    ? '🏆 競賽結果已出爐！點此查看得獎名單與成績 ➔'
+                    : '🏆 前往得獎名單及成績專區 ➔'}
+                </button>
+              </div>
+            )}
           </div>
         </section>
 
@@ -353,7 +492,14 @@ function App() {
                     <span className="news-date">{item.date}</span>
                   </div>
                   <h3 className="news-card-title">
-                    {item.url ? (
+                    {item.url === '#results' ? (
+                      <span
+                        onClick={() => navigateTo('results')}
+                        style={{ color: 'inherit', cursor: 'pointer' }}
+                      >
+                        {item.title} <span style={{ fontSize: '0.8em', color: 'var(--accent-gold)', marginLeft: '4px' }}>🏆</span>
+                      </span>
+                    ) : item.url ? (
                       <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
                         {item.title} <span style={{ fontSize: '0.8em', color: 'var(--accent-gold)', marginLeft: '4px' }}>🔗</span>
                       </a>
@@ -362,7 +508,15 @@ function App() {
                     )}
                   </h3>
                   <p className="news-content">{item.content}</p>
-                  {item.url && (
+                  {item.url === '#results' ? (
+                    <button
+                      onClick={() => navigateTo('results')}
+                      className="btn btn-primary"
+                      style={{ display: 'inline-flex', padding: '6px 12px', fontSize: '0.8rem', marginTop: '12px' }}
+                    >
+                      🏆 查看得獎名單
+                    </button>
+                  ) : item.url ? (
                     <a
                       href={item.url}
                       target="_blank"
@@ -372,7 +526,7 @@ function App() {
                     >
                       開啟連結
                     </a>
-                  )}
+                  ) : null}
                 </article>
               ))}
             </div>
@@ -735,6 +889,425 @@ function App() {
             </div>
           </div>
         </section>
+          </>
+        ) : (
+          /* ====================================================================
+             AWARDS & RESULTS (得獎名單與成績) PAGE VIEW
+             ==================================================================== */
+          <div className="results-page-view fade-in">
+            {/* Results Page Hero */}
+            <section className="results-hero">
+              <div className="container">
+                <div className="results-hero-content">
+                  <div className="breadcrumb-nav">
+                    <span className="breadcrumb-link" onClick={() => navigateTo('home', 'home')}>首頁</span>
+                    <span className="breadcrumb-separator">/</span>
+                    <span className="breadcrumb-current">🏆 得獎名單及成績</span>
+                  </div>
+                  <div className="results-badge">2026 HSPC 全國高中職程式設計競賽</div>
+                  <h1 className="results-main-title">
+                    <span>得獎名單</span> 及 競賽成績
+                  </h1>
+                  <p className="results-subtitle">
+                    恭喜所有獲獎隊伍與參賽同學！感謝指導老師及各校熱情參與！
+                  </p>
+                  <div className="results-meta-bar">
+                    <span className="results-meta-item">📅 公告日期：{data.results?.publishDate || '2026-08-26'}</span>
+                    <span className="results-meta-item">🏫 競賽地點：靜宜大學 主顧樓</span>
+                    <span className="results-meta-item">💻 評測規則：ICPC 競賽規則</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Certificate Delivery Notice Banner (重要通知) */}
+            <section className="cert-notice-section">
+              <div className="container">
+                <div className="cert-notice-card">
+                  <div className="cert-notice-icon-box">
+                    <span className="cert-notice-icon">📜</span>
+                  </div>
+                  <div className="cert-notice-content">
+                    <div className="cert-notice-tag">獎狀寄送重要通知</div>
+                    <h2 className="cert-notice-title">
+                      {data.results?.certificateNotice || '獎狀將另行以紙本寄送，預計 7 個工作天。'}
+                    </h2>
+                    <p className="cert-notice-desc">
+                      {data.results?.certificateDetails || '感謝各校師生與指導老師的熱情參與！本屆競賽獎狀將另行以紙本公文方式寄送至各校教務處/指導單位，預計於 7 個工作天內寄達，請獲獎隊伍留意收件。'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {isAnnounced ? (
+              <>
+                {/* Awards Showcase (金獎、銀獎、銅獎、佳作) */}
+                <section className="section-wrapper" style={{ paddingTop: '40px' }}>
+                  <div className="container">
+                    <div className="section-header">
+                      <h2 className="section-title">🏆 榮譽得獎名單</h2>
+                      <p className="section-desc">表彰在 2026 HSPC 中表現卓越的優秀隊伍</p>
+                    </div>
+
+                    {/* Top 3 Podium Cards */}
+                    <div className="podium-grid">
+                      {podiumAwards.map((item) => (
+                        <div
+                          key={item.rank}
+                          className={`podium-card podium-rank-${item.rank} ${item.rank === 1 ? 'podium-first' : ''}`}
+                        >
+                          <div className="podium-crown">
+                            <span className="podium-medal">{item.awardIcon}</span>
+                          </div>
+                          <div className="podium-award-badge">{item.award}</div>
+                          <div className="podium-team-no">{item.teamNo}</div>
+                          <h3 className="podium-team-name">{item.teamName}</h3>
+                          <div className="podium-school">{item.school}</div>
+                          <div className="podium-prize">
+                            <span className="prize-label">獲獎獎金</span>
+                            <span className="prize-amount">{item.prize}</span>
+                          </div>
+                          <div className="podium-stats">
+                            <div className="podium-stat-box">
+                              <span className="stat-value">{item.solved} 題</span>
+                              <span className="stat-label">解題數</span>
+                            </div>
+                            <div className="podium-stat-box">
+                              <span className="stat-value">{item.penalty} 分</span>
+                              <span className="stat-label">總罰時</span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Honorable Mentions Grid */}
+                    {honorableAwards.length > 0 && (
+                      <div className="honorable-section">
+                        <h3 className="honorable-section-title">🎖️ 佳作獲獎隊伍</h3>
+                        <div className="honorable-grid">
+                          {honorableAwards.map((item) => (
+                            <div key={item.rank} className="honorable-card">
+                              <div className="honorable-header">
+                                <span className="honorable-badge">{item.awardIcon} {item.award}</span>
+                                <span className="honorable-no">{item.teamNo}</span>
+                              </div>
+                              <h4 className="honorable-team">{item.teamName}</h4>
+                              <div className="honorable-school">{item.school}</div>
+                              <div className="honorable-footer">
+                                <span className="honorable-prize">{item.prize}</span>
+                                <span className="honorable-stats">解題 {item.solved} 題 ({item.penalty}分)</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </section>
+
+                {/* Scoreboard Table Section */}
+                <section className="section-wrapper" style={{ backgroundColor: 'var(--bg-primary)' }}>
+                  <div className="container">
+                    <div className="scoreboard-header-bar">
+                      <div>
+                        <h2 className="section-title">📊 完整競賽成績榜 (Scoreboard)</h2>
+                        <p className="section-desc">包含全體參賽隊伍排名、解題數、總罰時與各題通過狀況</p>
+                      </div>
+                      <div className="scoreboard-search-box">
+                        <span className="search-icon">🔍</span>
+                        <input
+                          type="text"
+                          placeholder="搜尋隊名、學校或組別..."
+                          value={scoreboardFilter}
+                          onChange={(e) => setScoreboardFilter(e.target.value)}
+                          className="scoreboard-search-input"
+                        />
+                        {scoreboardFilter && (
+                          <button
+                            onClick={() => setScoreboardFilter('')}
+                            className="search-clear-btn"
+                            title="清除搜尋"
+                          >
+                            &times;
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Scoreboard Table */}
+                    <div className="scoreboard-table-wrapper">
+                      <table className="scoreboard-table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: '70px', textAlign: 'center' }}>名次</th>
+                            <th style={{ width: '100px', textAlign: 'center' }}>獎項</th>
+                            <th style={{ width: '80px', textAlign: 'center' }}>組別</th>
+                            <th style={{ minWidth: '160px' }}>隊伍名稱</th>
+                            <th style={{ minWidth: '180px' }}>就讀學校</th>
+                            <th style={{ width: '80px', textAlign: 'center' }}>解題數</th>
+                            <th style={{ width: '90px', textAlign: 'center' }}>總罰時</th>
+                            {data.results?.problemsList?.map((prob) => (
+                              <th key={prob} style={{ width: '65px', textAlign: 'center' }}>
+                                {prob} 題
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredScoreboard.map((row) => (
+                            <tr
+                              key={row.rank}
+                              className={`scoreboard-row ${row.rank <= 3 ? `top-row top-row-${row.rank}` : ''}`}
+                            >
+                              <td style={{ textAlign: 'center' }}>
+                                <span className={`rank-badge rank-${row.rank}`}>
+                                  {row.rank === 1 ? '🥇 1' : row.rank === 2 ? '🥈 2' : row.rank === 3 ? '🥉 3' : row.rank}
+                                </span>
+                              </td>
+                              <td style={{ textAlign: 'center' }}>
+                                <span className={`award-pill award-${row.award}`}>
+                                  {row.award}
+                                </span>
+                              </td>
+                              <td style={{ textAlign: 'center', fontWeight: '600', color: 'var(--primary-navy)' }}>
+                                {row.teamNo}
+                              </td>
+                              <td style={{ fontWeight: '700', color: 'var(--text-primary)' }}>
+                                {row.teamName}
+                              </td>
+                              <td style={{ color: 'var(--text-secondary)' }}>
+                                {row.school}
+                              </td>
+                              <td style={{ textAlign: 'center', fontWeight: '800', color: 'var(--primary-navy)', fontSize: '1.05rem' }}>
+                                {row.solved}
+                              </td>
+                              <td style={{ textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'var(--font-display)' }}>
+                                {row.penalty}
+                              </td>
+                              {data.results?.problemsList?.map((prob) => {
+                                const pStatus = row.problems?.[prob]
+                                return (
+                                  <td key={prob} style={{ textAlign: 'center' }}>
+                                    {pStatus ? (
+                                      pStatus.solved ? (
+                                        <div className="prob-status prob-ac" title={`通過時間：${pStatus.time} 分鐘，送交 ${pStatus.tries} 次`}>
+                                          <span className="prob-symbol">+</span>
+                                          <span className="prob-detail">{pStatus.time} ({pStatus.tries})</span>
+                                        </div>
+                                      ) : pStatus.tries > 0 ? (
+                                        <div className="prob-status prob-wa" title={`未通過，已送交 ${pStatus.tries} 次`}>
+                                          <span className="prob-symbol">-</span>
+                                          <span className="prob-detail">({pStatus.tries})</span>
+                                        </div>
+                                      ) : (
+                                        <span className="prob-empty">·</span>
+                                      )
+                                    ) : (
+                                      <span className="prob-empty">·</span>
+                                    )}
+                                  </td>
+                                )
+                              })}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {filteredScoreboard.length === 0 && (
+                      <div className="scoreboard-empty-search">
+                        <span>🔍 沒有找到符合「{scoreboardFilter}」的參賽隊伍</span>
+                      </div>
+                    )}
+
+                    {/* Scoreboard Legend */}
+                    <div className="scoreboard-legend">
+                      <span className="legend-title">圖例說明：</span>
+                      <div className="legend-items">
+                        <div className="legend-item">
+                          <span className="prob-status prob-ac" style={{ display: 'inline-flex', padding: '2px 8px', fontSize: '0.75rem' }}>+ 18 (1)</span>
+                          <span>解題通過（通過時間 / 送交次數）</span>
+                        </div>
+                        <div className="legend-item">
+                          <span className="prob-status prob-wa" style={{ display: 'inline-flex', padding: '2px 8px', fontSize: '0.75rem' }}>- (2)</span>
+                          <span>嘗試未通過（送交次數）</span>
+                        </div>
+                        <div className="legend-item">
+                          <span className="prob-empty" style={{ fontSize: '1.2rem', lineHeight: '1' }}>·</span>
+                          <span>未嘗試解題</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </>
+            ) : (
+              /* PENDING / UNANNOUNCED VIEW */
+              <>
+                {/* Status Notice Box */}
+                <section className="section-wrapper" style={{ paddingTop: '40px', paddingBottom: '40px' }}>
+                  <div className="container">
+                    <div className="pending-status-card">
+                      <div className="pending-icon-circle">
+                        <span className="pending-icon">⏳</span>
+                      </div>
+                      <div className="pending-tag">賽事成績審查中</div>
+                      <h2 className="pending-title">得獎名單與競賽成績統計評定中</h2>
+                      <p className="pending-desc">
+                        {data.results?.statusMessage || '2026 HSPC 競賽成績與得獎名單目前正由評審委員會統計審核中，將於評審會議結束後正式公佈，敬請期待！'}
+                      </p>
+                      <div className="pending-schedule-info">
+                        <span>🕒 評審會議時間：8/26 (三) 16:30 - 16:50</span>
+                        <span>🏆 頒獎典禮時間：8/26 (三) 16:50 - 17:30</span>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Teams Roster List */}
+                <section className="section-wrapper" style={{ backgroundColor: 'var(--bg-primary)', paddingTop: '40px', paddingBottom: '40px' }}>
+                  <div className="container">
+                    <div className="scoreboard-header-bar">
+                      <div>
+                        <h2 className="section-title">📋 參賽組別清單</h2>
+                        <p className="section-desc">2026 HSPC 全體參賽隊伍一覽（共 {data.results?.teamsList?.length || 9} 組）</p>
+                      </div>
+                      <div className="scoreboard-search-box">
+                        <span className="search-icon">🔍</span>
+                        <input
+                          type="text"
+                          placeholder="搜尋隊名、學校或組別..."
+                          value={scoreboardFilter}
+                          onChange={(e) => setScoreboardFilter(e.target.value)}
+                          className="scoreboard-search-input"
+                        />
+                        {scoreboardFilter && (
+                          <button
+                            onClick={() => setScoreboardFilter('')}
+                            className="search-clear-btn"
+                            title="清除搜尋"
+                          >
+                            &times;
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="scoreboard-table-wrapper" style={{ maxWidth: '900px', margin: '0 auto' }}>
+                      <table className="scoreboard-table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: '90px', textAlign: 'center' }}>組別編號</th>
+                            <th>隊伍名稱</th>
+                            <th>就讀學校</th>
+                            <th style={{ width: '130px', textAlign: 'center' }}>目前狀態</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredTeamsList.map((team) => (
+                            <tr key={team.teamNo} className="scoreboard-row">
+                              <td style={{ textAlign: 'center', fontWeight: '700', color: 'var(--primary-navy)' }}>
+                                {team.teamNo}
+                              </td>
+                              <td style={{ fontWeight: '700', color: 'var(--text-primary)' }}>
+                                {team.teamName}
+                              </td>
+                              <td style={{ color: 'var(--text-secondary)' }}>
+                                {team.school}
+                              </td>
+                              <td style={{ textAlign: 'center' }}>
+                                <span className="award-pill" style={{ background: '#fef3c7', color: '#92400e', border: '1px solid #f59e0b' }}>
+                                  ⏳ 評定審核中
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {filteredTeamsList.length === 0 && (
+                      <div className="scoreboard-empty-search" style={{ maxWidth: '900px', margin: '0 auto' }}>
+                        <span>🔍 沒有找到符合「{scoreboardFilter}」的參賽隊伍</span>
+                      </div>
+                    )}
+                  </div>
+                </section>
+
+                {/* Awards & Prizes Overview Card */}
+                <section className="section-wrapper" style={{ paddingTop: '40px', paddingBottom: '40px' }}>
+                  <div className="container">
+                    <div className="section-header">
+                      <h2 className="section-title">🎁 本屆競賽獎項與獎額</h2>
+                      <p className="section-desc">競賽結果將擇優頒發以下榮譽獎項</p>
+                    </div>
+
+                    <div className="prizes-overview-grid">
+                      <div className="prize-overview-card gold">
+                        <div className="prize-badge-icon">🥇</div>
+                        <div className="prize-tier-name">第一名 (金獎)</div>
+                        <div className="prize-quota">錄取 1 隊</div>
+                        <div className="prize-amount-highlight">新台幣 12,000 元</div>
+                        <div className="prize-sub">每隊頒發獎金及教育部/主辦單位紙本獎狀</div>
+                      </div>
+
+                      <div className="prize-overview-card silver">
+                        <div className="prize-badge-icon">🥈</div>
+                        <div className="prize-tier-name">第二名 (銀獎)</div>
+                        <div className="prize-quota">錄取 1 隊</div>
+                        <div className="prize-amount-highlight">新台幣 9,000 元</div>
+                        <div className="prize-sub">每隊頒發獎金及主辦單位紙本獎狀</div>
+                      </div>
+
+                      <div className="prize-overview-card bronze">
+                        <div className="prize-badge-icon">🥉</div>
+                        <div className="prize-tier-name">第三名 (銅獎)</div>
+                        <div className="prize-quota">錄取 1 隊</div>
+                        <div className="prize-amount-highlight">新台幣 6,000 元</div>
+                        <div className="prize-sub">每隊頒發獎金及主辦單位紙本獎狀</div>
+                      </div>
+
+                      <div className="prize-overview-card mention">
+                        <div className="prize-badge-icon">🎖️</div>
+                        <div className="prize-tier-name">佳作組別</div>
+                        <div className="prize-quota">錄取 5 組</div>
+                        <div className="prize-amount-highlight">每組 新台幣 3,000 元</div>
+                        <div className="prize-sub">每隊頒發獎金及主辦單位紙本獎狀</div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </>
+            )}
+
+            {/* Rules and Scoring Note Card */}
+            <section className="section-wrapper" style={{ borderBottom: 'none' }}>
+              <div className="container">
+                <div className="news-card" style={{ maxWidth: '900px', margin: '0 auto' }}>
+                  <h3 className="news-card-title" style={{ color: 'var(--primary-navy)', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
+                    ℹ️ 競賽評分與給獎規則說明
+                  </h3>
+                  <ul className="bullet-list" style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <li><strong>評定名次標準：</strong>採用 ICPC 國際標準評分方式，參賽隊伍以答對題數多者為優先；答對題數相同時，以答對題目耗費之時間總和（含每次答錯罰時 20 分鐘）較少者為優勝。</li>
+                    <li><strong>獲獎名額與獎金：</strong>金獎頒發 12,000 元（1隊）、銀獎 9,000 元（1隊）、銅獎 6,000 元（1隊）、佳作各 3,000 元（5隊）。</li>
+                    <li><strong>獎狀紙本寄送：</strong>{data.results?.certificateNotice || '獎狀將另行以紙本寄送，預計 7 個工作天。'}（由主辦單位函寄至各參賽學校教務處或指導老師）。</li>
+                  </ul>
+                  <div style={{ marginTop: '24px', textAlign: 'center' }}>
+                    <button
+                      onClick={() => navigateTo('home', 'home')}
+                      className="btn btn-primary"
+                      style={{ padding: '12px 28px', fontSize: '1rem' }}
+                    >
+                      ← 返回競賽首頁
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        )}
       </main>
 
       {/* Footer */}
