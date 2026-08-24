@@ -208,15 +208,15 @@
     "publishDate": "115年08月26日 (賽後公佈)",
     "statusMessage": "2026 HSPC 競賽成績與得獎名單目前正由評審委員會統計審核中，將於評審會議結束後正式公佈，敬請期待！",
     "teamsList": [
-      { "teamNo": "S01", "teamName": "萍水相逢打完散", "school": "復旦高中", "seats": "316-29 ~ 316-31" },
-      { "teamNo": "S02", "teamName": "Beyond", "school": "僑泰高中", "seats": "316-24 ~ 316-26" },
-      { "teamNo": "S03", "teamName": "旗開得勝", "school": "新北市立新北高工", "seats": "316-19 ~ 316-21" },
-      { "teamNo": "S04", "teamName": "一定都隊", "school": "國立彰化高級中學", "seats": "316-45 ~ 316-47" },
-      { "teamNo": "S05", "teamName": "FIRST", "school": "新民高中", "seats": "316-40 ~ 316-42" },
+      { "teamNo": "S01", "teamName": "I don't know", "school": "復旦高中", "seats": "316-29 ~ 316-31" },
+      { "teamNo": "S02", "teamName": "Fine Ok", "school": "僑泰高中", "seats": "316-24 ~ 316-26" },
+      { "teamNo": "S03", "teamName": "6減9不夠，借1當0。石榴煎酒", "school": "新北市立新北高工", "seats": "316-19 ~ 316-21" },
+      { "teamNo": "S04", "teamName": "Team", "school": "國立彰化高級中學", "seats": "316-45 ~ 316-47" },
+      { "teamNo": "S05", "teamName": "消滅部好玩又好吃的東西端正社會風氣聯合組織", "school": "新民高中", "seats": "316-40 ~ 316-42" },
       { "teamNo": "S06", "teamName": "BS", "school": "新民高中", "seats": "316-35 ~ 316-37" },
-      { "teamNo": "S07", "teamName": "我們以下都是麻糬", "school": "桃園市立內壢高級中等學校", "seats": "316-59 ~ 316-61" },
-      { "teamNo": "S08", "teamName": "新社高中", "school": "新社高中", "seats": "316-56 ~ 316-58" },
-      { "teamNo": "S09", "teamName": "花態柳情山容水意", "school": "臺中市立清水高中", "seats": "316-51 ~ 316-53" }
+      { "teamNo": "S07", "teamName": "How to AC", "school": "桃園市立內壢高級中等學校", "seats": "316-59 ~ 316-61" },
+      { "teamNo": "S08", "teamName": "BTCUSD", "school": "新社高中", "seats": "316-56 ~ 316-58" },
+      { "teamNo": "S09", "teamName": "第9組", "school": "臺中市立清水高中", "seats": "316-51 ~ 316-53" }
     ],
     "seatingChart": {
       "location": "靜宜大學 主顧樓 3 樓 (主顧 316 電腦教室)",
