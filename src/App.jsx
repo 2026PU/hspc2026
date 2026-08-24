@@ -270,13 +270,13 @@ function App() {
                 </span>
               </li>
 
-              {/* Awards / Results Navigation Link */}
+              {/* Awards / Results / Seating Navigation Link */}
               <li>
                 <span
                   className={`nav-link nav-link-results-tab ${currentView === 'results' ? 'active' : ''}`}
                   onClick={() => navigateTo('results')}
                 >
-                  🏆 得獎名單
+                  🏆 得獎名單 / 座位表
                 </span>
               </li>
 
@@ -1202,6 +1202,7 @@ function App() {
                             <th style={{ width: '90px', textAlign: 'center' }}>組別編號</th>
                             <th>隊伍名稱</th>
                             <th>就讀學校</th>
+                            <th style={{ width: '140px', textAlign: 'center' }}>教室座位機號</th>
                             <th style={{ width: '130px', textAlign: 'center' }}>目前狀態</th>
                           </tr>
                         </thead>
@@ -1216,6 +1217,9 @@ function App() {
                               </td>
                               <td style={{ color: 'var(--text-secondary)' }}>
                                 {team.school}
+                              </td>
+                              <td style={{ textAlign: 'center', fontWeight: '700', color: '#0369a1' }}>
+                                💻 {team.seats || '主顧 316'}
                               </td>
                               <td style={{ textAlign: 'center' }}>
                                 <span className="award-pill" style={{ background: '#fef3c7', color: '#92400e', border: '1px solid #f59e0b' }}>
@@ -1233,6 +1237,143 @@ function App() {
                         <span>🔍 沒有找到符合「{scoreboardFilter}」的參賽隊伍</span>
                       </div>
                     )}
+
+                    {/* Classroom Seating Map (組別座位平面分佈圖) */}
+                    <div className="seating-map-container" style={{ maxWidth: '900px', margin: '40px auto 0 auto' }}>
+                      <div className="seating-map-header">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{ fontSize: '1.4rem' }}>🏫</span>
+                          <h3 style={{ margin: 0, fontSize: '1.3rem', color: 'var(--primary-navy)', fontWeight: '800' }}>
+                            主顧 316 電腦教室 組別座位分佈圖 (S01~S09 組)
+                          </h3>
+                        </div>
+                        <span className="seating-map-loc-badge">
+                          📍 靜宜大學 主顧樓 3 樓
+                        </span>
+                      </div>
+
+                      <div className="seating-map-card">
+                        <div className="classroom-podium-area">
+                          <div className="classroom-door">🚪 前門（入口）</div>
+                          <div className="teacher-desk">👨‍🏫 老師 / 監考席 (316-73)</div>
+                        </div>
+
+                        <div className="classroom-grid">
+                          {/* Row 1 */}
+                          <div className="classroom-row generic-row">
+                            <div className="row-label">第 1 排</div>
+                            <div className="generic-seats-box">
+                              <span>316-01 ~ 316-16（預備機位席）</span>
+                            </div>
+                          </div>
+
+                          {/* Row 2 */}
+                          <div className="classroom-row team-row">
+                            <div className="row-label">第 2 排</div>
+                            <div className="team-seats-flex">
+                              <div className="seat-team-card s03">
+                                <div className="seat-team-top">
+                                  <span className="seat-tag">S03</span>
+                                  <span className="seat-code">316-19 ~ 21</span>
+                                </div>
+                                <div className="seat-team-title">旗開得勝</div>
+                                <div className="seat-team-sub">新北高工</div>
+                              </div>
+                              <div className="seat-team-card s02">
+                                <div className="seat-team-top">
+                                  <span className="seat-tag">S02</span>
+                                  <span className="seat-code">316-24 ~ 26</span>
+                                </div>
+                                <div className="seat-team-title">Beyond</div>
+                                <div className="seat-team-sub">僑泰高中</div>
+                              </div>
+                              <div className="seat-team-card s01">
+                                <div className="seat-team-top">
+                                  <span className="seat-tag">S01</span>
+                                  <span className="seat-code">316-29 ~ 31</span>
+                                </div>
+                                <div className="seat-team-title">萍水相逢打完散</div>
+                                <div className="seat-team-sub">復旦高中</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Row 3 */}
+                          <div className="classroom-row team-row">
+                            <div className="row-label">第 3 排</div>
+                            <div className="team-seats-flex">
+                              <div className="seat-team-card s06">
+                                <div className="seat-team-top">
+                                  <span className="seat-tag">S06</span>
+                                  <span className="seat-code">316-35 ~ 37</span>
+                                </div>
+                                <div className="seat-team-title">BS</div>
+                                <div className="seat-team-sub">新民高中</div>
+                              </div>
+                              <div className="seat-team-card s05">
+                                <div className="seat-team-top">
+                                  <span className="seat-tag">S05</span>
+                                  <span className="seat-code">316-40 ~ 42</span>
+                                </div>
+                                <div className="seat-team-title">FIRST</div>
+                                <div className="seat-team-sub">新民高中</div>
+                              </div>
+                              <div className="seat-team-card s04">
+                                <div className="seat-team-top">
+                                  <span className="seat-tag">S04</span>
+                                  <span className="seat-code">316-45 ~ 47</span>
+                                </div>
+                                <div className="seat-team-title">一定都隊</div>
+                                <div className="seat-team-sub">彰化高中</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Row 4 */}
+                          <div className="classroom-row team-row">
+                            <div className="row-label">第 4 排</div>
+                            <div className="team-seats-flex">
+                              <div className="seat-team-card s09">
+                                <div className="seat-team-top">
+                                  <span className="seat-tag">S09</span>
+                                  <span className="seat-code">316-51 ~ 53</span>
+                                </div>
+                                <div className="seat-team-title">花態柳情山容水意</div>
+                                <div className="seat-team-sub">清水高中</div>
+                              </div>
+                              <div className="seat-team-card s08">
+                                <div className="seat-team-top">
+                                  <span className="seat-tag">S08</span>
+                                  <span className="seat-code">316-56 ~ 58</span>
+                                </div>
+                                <div className="seat-team-title">新社高中</div>
+                                <div className="seat-team-sub">新社高中</div>
+                              </div>
+                              <div className="seat-team-card s07">
+                                <div className="seat-team-top">
+                                  <span className="seat-tag">S07</span>
+                                  <span className="seat-code">316-59 ~ 61</span>
+                                </div>
+                                <div className="seat-team-title">我們以下都是麻糬</div>
+                                <div className="seat-team-sub">內壢高中</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Row 5 */}
+                          <div className="classroom-row generic-row">
+                            <div className="row-label">第 5 排</div>
+                            <div className="generic-seats-box">
+                              <span>316-63 ~ 316-72（預備機位席）</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="seating-map-footer">
+                          <span>💡 競賽規則：每組 3 位選手於指定機號入座，每隊共用 1 部承辦單位提供之電腦進行競賽解題。</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </section>
 
