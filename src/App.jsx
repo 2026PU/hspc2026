@@ -126,7 +126,7 @@ function App() {
     }
   }
 
-  const isAnnounced = Boolean(data.results?.isAnnounced && data.results?.awards && data.results.awards.length > 0)
+  const isAnnounced = Boolean(data.isAnnounced ?? data.results?.isAnnounced)
 
   // Filter scoreboard items
   const filteredScoreboard = useMemo(() => {
@@ -1314,12 +1314,6 @@ function App() {
 
                         <div className="seating-map-footer">
                           <span>💡 競賽規則：每組 3 位選手於指定組別座位入座，每隊共用 1 部承辦單位提供之電腦進行競賽解題。</span>
-                        </div>
-                      </div>
-                    </div>
-
-                        <div className="seating-map-footer">
-                          <span>💡 競賽規則：每組 3 位選手於指定機號入座，每隊共用 1 部承辦單位提供之電腦進行競賽解題。</span>
                         </div>
                       </div>
                     </div>

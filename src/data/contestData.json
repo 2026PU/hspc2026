@@ -1,5 +1,7 @@
 {
   "_comment": "這是網頁資料設定檔，若要更新網頁內容，請直接修改底下的對應欄位值。詳細說明請參考專案根目錄的 README.md。",
+  "_results_announcement_toggle": "【成績公佈開關】：將底下的 isAnnounced 設為 true 即公佈得獎名單；設為 false 即不公佈（目前為 false 不公佈）。",
+  "isAnnounced": false,
   "contest": {
     "year": "2026",
     "rocYear": "115",
@@ -231,8 +233,262 @@
         { "row": 5, "type": "generic", "label": "第 5 排", "desc": "預備席" }
       ]
     },
-    "awards": [],
+    "awards": [
+      {
+        "rank": 1,
+        "award": "金獎",
+        "awardIcon": "🥇",
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "prize": "新台幣 12,000 元",
+        "solved": 0,
+        "penalty": 0
+      },
+      {
+        "rank": 2,
+        "award": "銀獎",
+        "awardIcon": "🥈",
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "prize": "新台幣 9,000 元",
+        "solved": 0,
+        "penalty": 0
+      },
+      {
+        "rank": 3,
+        "award": "銅獎",
+        "awardIcon": "🥉",
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "prize": "新台幣 6,000 元",
+        "solved": 0,
+        "penalty": 0
+      },
+      {
+        "rank": 4,
+        "award": "佳作",
+        "awardIcon": "🎖️",
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "prize": "新台幣 3,000 元",
+        "solved": 0,
+        "penalty": 0
+      },
+      {
+        "rank": 5,
+        "award": "佳作",
+        "awardIcon": "🎖️",
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "prize": "新台幣 3,000 元",
+        "solved": 0,
+        "penalty": 0
+      },
+      {
+        "rank": 6,
+        "award": "佳作",
+        "awardIcon": "🎖️",
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "prize": "新台幣 3,000 元",
+        "solved": 0,
+        "penalty": 0
+      },
+      {
+        "rank": 7,
+        "award": "佳作",
+        "awardIcon": "🎖️",
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "prize": "新台幣 3,000 元",
+        "solved": 0,
+        "penalty": 0
+      },
+      {
+        "rank": 8,
+        "award": "佳作",
+        "awardIcon": "🎖️",
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "prize": "新台幣 3,000 元",
+        "solved": 0,
+        "penalty": 0
+      },
+      {
+        "rank": 9,
+        "award": "參賽證明",
+        "awardIcon": "🏅",
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "prize": "參賽證明",
+        "solved": 0,
+        "penalty": 0
+      }
+    ],
     "problemsList": ["A", "B", "C", "D", "E", "F"],
-    "scoreboard": []
+    "scoreboard": [
+      {
+        "rank": 1,
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "solved": 0,
+        "penalty": 0,
+        "award": "金獎",
+        "problems": {
+          "A": { "solved": false, "time": 0, "tries": 0 },
+          "B": { "solved": false, "time": 0, "tries": 0 },
+          "C": { "solved": false, "time": 0, "tries": 0 },
+          "D": { "solved": false, "time": 0, "tries": 0 },
+          "E": { "solved": false, "time": 0, "tries": 0 },
+          "F": { "solved": false, "time": 0, "tries": 0 }
+        }
+      },
+      {
+        "rank": 2,
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "solved": 0,
+        "penalty": 0,
+        "award": "銀獎",
+        "problems": {
+          "A": { "solved": false, "time": 0, "tries": 0 },
+          "B": { "solved": false, "time": 0, "tries": 0 },
+          "C": { "solved": false, "time": 0, "tries": 0 },
+          "D": { "solved": false, "time": 0, "tries": 0 },
+          "E": { "solved": false, "time": 0, "tries": 0 },
+          "F": { "solved": false, "time": 0, "tries": 0 }
+        }
+      },
+      {
+        "rank": 3,
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "solved": 0,
+        "penalty": 0,
+        "award": "銅獎",
+        "problems": {
+          "A": { "solved": false, "time": 0, "tries": 0 },
+          "B": { "solved": false, "time": 0, "tries": 0 },
+          "C": { "solved": false, "time": 0, "tries": 0 },
+          "D": { "solved": false, "time": 0, "tries": 0 },
+          "E": { "solved": false, "time": 0, "tries": 0 },
+          "F": { "solved": false, "time": 0, "tries": 0 }
+        }
+      },
+      {
+        "rank": 4,
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "solved": 0,
+        "penalty": 0,
+        "award": "佳作",
+        "problems": {
+          "A": { "solved": false, "time": 0, "tries": 0 },
+          "B": { "solved": false, "time": 0, "tries": 0 },
+          "C": { "solved": false, "time": 0, "tries": 0 },
+          "D": { "solved": false, "time": 0, "tries": 0 },
+          "E": { "solved": false, "time": 0, "tries": 0 },
+          "F": { "solved": false, "time": 0, "tries": 0 }
+        }
+      },
+      {
+        "rank": 5,
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "solved": 0,
+        "penalty": 0,
+        "award": "佳作",
+        "problems": {
+          "A": { "solved": false, "time": 0, "tries": 0 },
+          "B": { "solved": false, "time": 0, "tries": 0 },
+          "C": { "solved": false, "time": 0, "tries": 0 },
+          "D": { "solved": false, "time": 0, "tries": 0 },
+          "E": { "solved": false, "time": 0, "tries": 0 },
+          "F": { "solved": false, "time": 0, "tries": 0 }
+        }
+      },
+      {
+        "rank": 6,
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "solved": 0,
+        "penalty": 0,
+        "award": "佳作",
+        "problems": {
+          "A": { "solved": false, "time": 0, "tries": 0 },
+          "B": { "solved": false, "time": 0, "tries": 0 },
+          "C": { "solved": false, "time": 0, "tries": 0 },
+          "D": { "solved": false, "time": 0, "tries": 0 },
+          "E": { "solved": false, "time": 0, "tries": 0 },
+          "F": { "solved": false, "time": 0, "tries": 0 }
+        }
+      },
+      {
+        "rank": 7,
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "solved": 0,
+        "penalty": 0,
+        "award": "佳作",
+        "problems": {
+          "A": { "solved": false, "time": 0, "tries": 0 },
+          "B": { "solved": false, "time": 0, "tries": 0 },
+          "C": { "solved": false, "time": 0, "tries": 0 },
+          "D": { "solved": false, "time": 0, "tries": 0 },
+          "E": { "solved": false, "time": 0, "tries": 0 },
+          "F": { "solved": false, "time": 0, "tries": 0 }
+        }
+      },
+      {
+        "rank": 8,
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "solved": 0,
+        "penalty": 0,
+        "award": "佳作",
+        "problems": {
+          "A": { "solved": false, "time": 0, "tries": 0 },
+          "B": { "solved": false, "time": 0, "tries": 0 },
+          "C": { "solved": false, "time": 0, "tries": 0 },
+          "D": { "solved": false, "time": 0, "tries": 0 },
+          "E": { "solved": false, "time": 0, "tries": 0 },
+          "F": { "solved": false, "time": 0, "tries": 0 }
+        }
+      },
+      {
+        "rank": 9,
+        "teamNo": "",
+        "teamName": "",
+        "school": "",
+        "solved": 0,
+        "penalty": 0,
+        "award": "參賽證明",
+        "problems": {
+          "A": { "solved": false, "time": 0, "tries": 0 },
+          "B": { "solved": false, "time": 0, "tries": 0 },
+          "C": { "solved": false, "time": 0, "tries": 0 },
+          "D": { "solved": false, "time": 0, "tries": 0 },
+          "E": { "solved": false, "time": 0, "tries": 0 },
+          "F": { "solved": false, "time": 0, "tries": 0 }
+        }
+      }
+    ]
   }
 }
