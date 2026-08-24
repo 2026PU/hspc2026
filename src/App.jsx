@@ -89,7 +89,7 @@ function App() {
       setIsAdminModalOpen(true)
       showToast('🔓 管理員驗證成功，已進入線上管理後台！', 'success')
     } else {
-      setPasswordError('❌ 密碼不正確，請重新輸入（預設密碼為 hspc2026）')
+      setPasswordError('❌ 密碼不正確，請重新輸入！')
     }
   }
 
@@ -170,8 +170,8 @@ function App() {
     })
   }
 
-  // Save changes
-  const handleSaveAdmin = () => {
+  // Build full updated JSON data containing all fields
+  const getFullUpdatedData = () => {
     const updatedAwards = adminFormData.awards
     const updatedScoreboard = updatedAwards.map((a, idx) => ({
       rank: a.rank || idx + 1,
@@ -191,19 +191,38 @@ function App() {
       }
     }))
 
-    const updatedData = {
-      ...data,
+    return {
+      _comment: data._comment || initialData._comment,
+      _results_announcement_toggle: data._results_announcement_toggle || initialData._results_announcement_toggle,
       isAnnounced: adminFormData.isAnnounced,
+      adminPassword: data.adminPassword || initialData.adminPassword || 'hspc2026',
+      contest: data.contest || initialData.contest,
+      contestInfo: data.contestInfo || initialData.contestInfo,
+      registration: data.registration || initialData.registration,
+      contact: data.contact || initialData.contact,
+      organizers: data.organizers || initialData.organizers,
+      coOrganizers: data.coOrganizers || initialData.coOrganizers,
+      sponsors: data.sponsors || initialData.sponsors,
+      news: data.news || initialData.news,
+      environment: data.environment || initialData.environment,
+      schedule: data.schedule || initialData.schedule,
+      pastProblems: data.pastProblems || initialData.pastProblems,
+      rules: data.rules || initialData.rules,
+      faq: data.faq || initialData.faq,
       results: {
-        ...data.results,
+        ...(data.results || initialData.results),
         isAnnounced: adminFormData.isAnnounced,
         status: adminFormData.isAnnounced ? '已公佈' : '待公佈',
-        publishDate: adminFormData.publishDate,
+        publishDate: adminFormData.publishDate || (data.results?.publishDate || '115年08月26日'),
         awards: updatedAwards,
         scoreboard: updatedScoreboard
       }
     }
+  }
 
+  // Save changes
+  const handleSaveAdmin = () => {
+    const updatedData = getFullUpdatedData()
     setData(updatedData)
     try {
       localStorage.setItem('hspc2026_custom_data', JSON.stringify(updatedData))
@@ -213,43 +232,23 @@ function App() {
     showToast('💾 成績資料已成功儲存並即時套用至畫面！', 'success')
   }
 
-  // Copy JSON
+  // Copy full JSON for GitHub
   const handleCopyJson = () => {
-    const updatedData = {
-      ...data,
-      isAnnounced: adminFormData.isAnnounced,
-      results: {
-        ...data.results,
-        isAnnounced: adminFormData.isAnnounced,
-        status: adminFormData.isAnnounced ? '已公佈' : '待公佈',
-        publishDate: adminFormData.publishDate,
-        awards: adminFormData.awards
-      }
-    }
+    const updatedData = getFullUpdatedData()
     const jsonString = JSON.stringify(updatedData, null, 2)
     navigator.clipboard.writeText(jsonString).then(
       () => {
-        showToast('📋 已複製完整 contestData.json！可直接在 GitHub 貼上儲存發布。', 'success')
+        showToast('📋 已複製整個完整 contestData.json！可直接貼上覆蓋 GitHub 檔案發布。', 'success')
       },
       () => {
-        showToast('複製失敗，請手動複製', 'error')
+        showToast('複製失敗，請手動下載或複製', 'error')
       }
     )
   }
 
-  // Download JSON
+  // Download full JSON file
   const handleDownloadJson = () => {
-    const updatedData = {
-      ...data,
-      isAnnounced: adminFormData.isAnnounced,
-      results: {
-        ...data.results,
-        isAnnounced: adminFormData.isAnnounced,
-        status: adminFormData.isAnnounced ? '已公佈' : '待公佈',
-        publishDate: adminFormData.publishDate,
-        awards: adminFormData.awards
-      }
-    }
+    const updatedData = getFullUpdatedData()
     const jsonString = JSON.stringify(updatedData, null, 2)
     const blob = new Blob([jsonString], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
@@ -260,7 +259,7 @@ function App() {
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
-    showToast('📥 contestData.json 檔案已開始下載！', 'success')
+    showToast('📥 完整 contestData.json 檔案已開始下載！', 'success')
   }
 
   // Reset to default
@@ -1787,7 +1786,7 @@ function App() {
                 <input
                   type="password"
                   className="admin-input"
-                  placeholder="請輸入管理密碼 (預設: hspc2026)"
+                  placeholder="請輸入管理密碼"
                   value={passwordInput}
                   onChange={(e) => {
                     setPasswordInput(e.target.value)
