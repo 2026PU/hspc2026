@@ -2,6 +2,7 @@
   "_comment": "這是網頁資料設定檔，若要更新網頁內容，請直接修改底下的對應欄位值。詳細說明請參考專案根目錄的 README.md。",
   "_results_announcement_toggle": "【成績公佈開關】：將底下的 isAnnounced 設為 true 即公佈得獎名單；設為 false 即不公佈（目前為 false 不公佈）。",
   "isAnnounced": false,
+  "adminPassword": "hspc2026",
   "contest": {
     "year": "2026",
     "rocYear": "115",
