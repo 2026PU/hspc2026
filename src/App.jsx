@@ -1213,7 +1213,6 @@ function App() {
                             <th style={{ width: '90px', textAlign: 'center' }}>組別編號</th>
                             <th>隊伍名稱</th>
                             <th>就讀學校</th>
-                            <th style={{ width: '140px', textAlign: 'center' }}>教室座位機號</th>
                             <th style={{ width: '130px', textAlign: 'center' }}>目前狀態</th>
                           </tr>
                         </thead>
@@ -1228,9 +1227,6 @@ function App() {
                               </td>
                               <td style={{ color: 'var(--text-secondary)' }}>
                                 {team.school}
-                              </td>
-                              <td style={{ textAlign: 'center', fontWeight: '700', color: '#0369a1' }}>
-                                💻 {team.seats || '主顧 316'}
                               </td>
                               <td style={{ textAlign: 'center' }}>
                                 <span className="award-pill" style={{ background: '#fef3c7', color: '#92400e', border: '1px solid #f59e0b' }}>
@@ -1266,16 +1262,22 @@ function App() {
                       <div className="seating-map-card">
                         <div className="classroom-podium-area">
                           <div className="classroom-door">🚪 前門（入口）</div>
-                          <div className="teacher-desk">👨‍🏫 老師 / 監考席 (316-73)</div>
+                          <div className="teacher-desk">👨‍🏫 老師 / 監考席</div>
+                        </div>
+
+                        <div className="classroom-direction-bar">
+                          <span>👈 左側座位區</span>
+                          <span>─── 由左而右（面向講台視角）───</span>
+                          <span>右側座位區 👉</span>
                         </div>
 
                         <div className="classroom-grid">
                           {(data.results?.seatingChart?.rows || [
-                            { row: 1, type: "generic", label: "第 1 排", desc: "316-01 ~ 316-16（預備機位席）" },
-                            { row: 2, type: "teams", label: "第 2 排", teamNos: ["S03", "S02", "S01"] },
-                            { row: 3, type: "teams", label: "第 3 排", teamNos: ["S06", "S05", "S04"] },
-                            { row: 4, type: "teams", label: "第 4 排", teamNos: ["S09", "S08", "S07"] },
-                            { row: 5, type: "generic", label: "第 5 排", desc: "316-63 ~ 316-72（預備機位席）" }
+                            { row: 1, type: "generic", label: "第 1 排", desc: "預備席" },
+                            { row: 2, type: "teams", label: "第 2 排", teamNos: ["S01", "S02", "S03"] },
+                            { row: 3, type: "teams", label: "第 3 排", teamNos: ["S04", "S05", "S06"] },
+                            { row: 4, type: "teams", label: "第 4 排", teamNos: ["S07", "S08", "S09"] },
+                            { row: 5, type: "generic", label: "第 5 排", desc: "預備席" }
                           ]).map((rowItem, rIdx) => (
                             <div
                               key={rIdx}
@@ -1294,9 +1296,6 @@ function App() {
                                       <div key={tNo} className={`seat-team-card ${tNo.toLowerCase()}`}>
                                         <div className="seat-team-top">
                                           <span className="seat-tag">{tNo}</span>
-                                          <span className="seat-code">
-                                            {team?.seats || ''}
-                                          </span>
                                         </div>
                                         <div className="seat-team-title" title={team?.teamName || tNo}>
                                           {team?.teamName || tNo}
@@ -1312,6 +1311,12 @@ function App() {
                             </div>
                           ))}
                         </div>
+
+                        <div className="seating-map-footer">
+                          <span>💡 競賽規則：每組 3 位選手於指定組別座位入座，每隊共用 1 部承辦單位提供之電腦進行競賽解題。</span>
+                        </div>
+                      </div>
+                    </div>
 
                         <div className="seating-map-footer">
                           <span>💡 競賽規則：每組 3 位選手於指定機號入座，每隊共用 1 部承辦單位提供之電腦進行競賽解題。</span>

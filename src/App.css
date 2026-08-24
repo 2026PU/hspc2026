@@ -2306,8 +2306,23 @@
   color: #ffffff;
   padding: 14px 20px;
   border-radius: var(--radius-md);
-  margin-bottom: 24px;
+  margin-bottom: 14px;
   font-weight: 700;
+}
+
+.classroom-direction-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--primary-navy);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  letter-spacing: 0.3px;
 }
 
 .teacher-desk {
