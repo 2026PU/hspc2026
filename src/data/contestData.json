@@ -222,7 +222,14 @@
       "location": "靜宜大學 主顧樓 3 樓 (主顧 316 電腦教室)",
       "teacherSeat": "316-73 (老師 / 監考席)",
       "totalTeams": 9,
-      "rules": "每隊 3 位成員於指定機號入座，每隊共用 1 部承辦單位提供之電腦。"
+      "rules": "每隊 3 位成員於指定機號入座，每隊共用 1 部承辦單位提供之電腦。",
+      "rows": [
+        { "row": 1, "type": "generic", "label": "第 1 排", "desc": "316-01 ~ 316-16（預備機位席）" },
+        { "row": 2, "type": "teams", "label": "第 2 排", "teamNos": ["S03", "S02", "S01"] },
+        { "row": 3, "type": "teams", "label": "第 3 排", "teamNos": ["S06", "S05", "S04"] },
+        { "row": 4, "type": "teams", "label": "第 4 排", "teamNos": ["S09", "S08", "S07"] },
+        { "row": 5, "type": "generic", "label": "第 5 排", "desc": "316-63 ~ 316-72（預備機位席）" }
+      ]
     },
     "awards": [],
     "problemsList": ["A", "B", "C", "D", "E", "F"],

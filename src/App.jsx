@@ -155,6 +155,17 @@ function App() {
     )
   }, [scoreboardFilter])
 
+  // Lookup map for teams by teamNo
+  const teamByNo = useMemo(() => {
+    const map = {}
+    if (data.results?.teamsList) {
+      data.results.teamsList.forEach((t) => {
+        map[t.teamNo] = t
+      })
+    }
+    return map
+  }, [data.results?.teamsList])
+
   // Podium awards (Top 3)
   const podiumAwards = useMemo(() => {
     if (!data.results || !data.results.awards) return []
@@ -1259,114 +1270,47 @@ function App() {
                         </div>
 
                         <div className="classroom-grid">
-                          {/* Row 1 */}
-                          <div className="classroom-row generic-row">
-                            <div className="row-label">第 1 排</div>
-                            <div className="generic-seats-box">
-                              <span>316-01 ~ 316-16（預備機位席）</span>
+                          {(data.results?.seatingChart?.rows || [
+                            { row: 1, type: "generic", label: "第 1 排", desc: "316-01 ~ 316-16（預備機位席）" },
+                            { row: 2, type: "teams", label: "第 2 排", teamNos: ["S03", "S02", "S01"] },
+                            { row: 3, type: "teams", label: "第 3 排", teamNos: ["S06", "S05", "S04"] },
+                            { row: 4, type: "teams", label: "第 4 排", teamNos: ["S09", "S08", "S07"] },
+                            { row: 5, type: "generic", label: "第 5 排", desc: "316-63 ~ 316-72（預備機位席）" }
+                          ]).map((rowItem, rIdx) => (
+                            <div
+                              key={rIdx}
+                              className={`classroom-row ${rowItem.type === 'generic' ? 'generic-row' : 'team-row'}`}
+                            >
+                              <div className="row-label">{rowItem.label}</div>
+                              {rowItem.type === 'generic' ? (
+                                <div className="generic-seats-box">
+                                  <span>{rowItem.desc}</span>
+                                </div>
+                              ) : (
+                                <div className="team-seats-flex">
+                                  {rowItem.teamNos.map((tNo) => {
+                                    const team = teamByNo[tNo]
+                                    return (
+                                      <div key={tNo} className={`seat-team-card ${tNo.toLowerCase()}`}>
+                                        <div className="seat-team-top">
+                                          <span className="seat-tag">{tNo}</span>
+                                          <span className="seat-code">
+                                            {team?.seats || ''}
+                                          </span>
+                                        </div>
+                                        <div className="seat-team-title" title={team?.teamName || tNo}>
+                                          {team?.teamName || tNo}
+                                        </div>
+                                        <div className="seat-team-sub">
+                                          {team?.school || ''}
+                                        </div>
+                                      </div>
+                                    )
+                                  })}
+                                </div>
+                              )}
                             </div>
-                          </div>
-
-                          {/* Row 2 */}
-                          <div className="classroom-row team-row">
-                            <div className="row-label">第 2 排</div>
-                            <div className="team-seats-flex">
-                              <div className="seat-team-card s03">
-                                <div className="seat-team-top">
-                                  <span className="seat-tag">S03</span>
-                                  <span className="seat-code">316-19 ~ 21</span>
-                                </div>
-                                <div className="seat-team-title">旗開得勝</div>
-                                <div className="seat-team-sub">新北高工</div>
-                              </div>
-                              <div className="seat-team-card s02">
-                                <div className="seat-team-top">
-                                  <span className="seat-tag">S02</span>
-                                  <span className="seat-code">316-24 ~ 26</span>
-                                </div>
-                                <div className="seat-team-title">Beyond</div>
-                                <div className="seat-team-sub">僑泰高中</div>
-                              </div>
-                              <div className="seat-team-card s01">
-                                <div className="seat-team-top">
-                                  <span className="seat-tag">S01</span>
-                                  <span className="seat-code">316-29 ~ 31</span>
-                                </div>
-                                <div className="seat-team-title">萍水相逢打完散</div>
-                                <div className="seat-team-sub">復旦高中</div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Row 3 */}
-                          <div className="classroom-row team-row">
-                            <div className="row-label">第 3 排</div>
-                            <div className="team-seats-flex">
-                              <div className="seat-team-card s06">
-                                <div className="seat-team-top">
-                                  <span className="seat-tag">S06</span>
-                                  <span className="seat-code">316-35 ~ 37</span>
-                                </div>
-                                <div className="seat-team-title">BS</div>
-                                <div className="seat-team-sub">新民高中</div>
-                              </div>
-                              <div className="seat-team-card s05">
-                                <div className="seat-team-top">
-                                  <span className="seat-tag">S05</span>
-                                  <span className="seat-code">316-40 ~ 42</span>
-                                </div>
-                                <div className="seat-team-title">FIRST</div>
-                                <div className="seat-team-sub">新民高中</div>
-                              </div>
-                              <div className="seat-team-card s04">
-                                <div className="seat-team-top">
-                                  <span className="seat-tag">S04</span>
-                                  <span className="seat-code">316-45 ~ 47</span>
-                                </div>
-                                <div className="seat-team-title">一定都隊</div>
-                                <div className="seat-team-sub">彰化高中</div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Row 4 */}
-                          <div className="classroom-row team-row">
-                            <div className="row-label">第 4 排</div>
-                            <div className="team-seats-flex">
-                              <div className="seat-team-card s09">
-                                <div className="seat-team-top">
-                                  <span className="seat-tag">S09</span>
-                                  <span className="seat-code">316-51 ~ 53</span>
-                                </div>
-                                <div className="seat-team-title">花態柳情山容水意</div>
-                                <div className="seat-team-sub">清水高中</div>
-                              </div>
-                              <div className="seat-team-card s08">
-                                <div className="seat-team-top">
-                                  <span className="seat-tag">S08</span>
-                                  <span className="seat-code">316-56 ~ 58</span>
-                                </div>
-                                <div className="seat-team-title">新社高中</div>
-                                <div className="seat-team-sub">新社高中</div>
-                              </div>
-                              <div className="seat-team-card s07">
-                                <div className="seat-team-top">
-                                  <span className="seat-tag">S07</span>
-                                  <span className="seat-code">316-59 ~ 61</span>
-                                </div>
-                                <div className="seat-team-title">我們以下都是麻糬</div>
-                                <div className="seat-team-sub">內壢高中</div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Row 5 */}
-                          <div className="classroom-row generic-row">
-                            <div className="row-label">第 5 排</div>
-                            <div className="generic-seats-box">
-                              <span>316-63 ~ 316-72（預備機位席）</span>
-                            </div>
-                          </div>
+                          ))}
                         </div>
 
                         <div className="seating-map-footer">
