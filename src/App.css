@@ -1593,11 +1593,11 @@
   margin: 0;
 }
 
-/* Podium Grid (Top 3 Awards) */
+/* Podium Grid (Top Awards: Gold, Silver, Bronze) */
 .podium-grid {
   display: grid;
-  grid-template-columns: 1fr 1.15fr 1fr;
-  gap: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
   align-items: stretch;
   margin-bottom: 40px;
 }
@@ -1626,23 +1626,20 @@
   border-color: #f59e0b;
   background: linear-gradient(180deg, #fffdfa 0%, #ffffff 100%);
   box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2);
-  order: 2; /* Center first place on desktop */
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
 .podium-rank-1:hover {
-  transform: scale(1.03) translateY(-6px);
+  transform: scale(1.02) translateY(-6px);
   box-shadow: 0 15px 40px rgba(245, 158, 11, 0.3);
 }
 
 .podium-rank-2 {
   border-color: #94a3b8;
-  order: 1; /* Left on desktop */
 }
 
 .podium-rank-3 {
   border-color: #d97706;
-  order: 3; /* Right on desktop */
 }
 
 .podium-crown {
@@ -2134,29 +2131,27 @@
 }
 
 /* Results Responsive Styles */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
+  .podium-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 640px) {
   .podium-grid {
     grid-template-columns: 1fr;
     gap: 20px;
   }
   
   .podium-rank-1 {
-    order: 1;
     transform: none;
   }
   
   .podium-rank-1:hover {
     transform: translateY(-4px);
   }
-  
-  .podium-rank-2 {
-    order: 2;
-  }
-  
-  .podium-rank-3 {
-    order: 3;
-  }
-  
+
   .results-main-title {
     font-size: 2.2rem;
   }

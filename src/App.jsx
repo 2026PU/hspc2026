@@ -429,16 +429,16 @@ function App() {
     return map
   }, [data.results?.teamsList])
 
-  // Podium awards (Top 3)
+  // Podium awards (Gold, Silver, Bronze - Top 4)
   const podiumAwards = useMemo(() => {
     if (!data.results || !data.results.awards) return []
-    return data.results.awards.filter((a) => a.rank <= 3 && a.teamName)
+    return data.results.awards.filter((a) => (a.award === '金獎' || a.award === '銀獎' || a.award === '銅獎' || a.rank <= 4) && a.teamName)
   }, [data.results?.awards])
 
-  // Honorable mentions (Rank > 3)
+  // Honorable mentions (佳作)
   const honorableAwards = useMemo(() => {
     if (!data.results || !data.results.awards) return []
-    return data.results.awards.filter((a) => a.rank > 3 && a.teamName)
+    return data.results.awards.filter((a) => a.award === '佳作' && a.teamName)
   }, [data.results?.awards])
 
   return (
@@ -1238,6 +1238,11 @@ function App() {
                           <div className="podium-team-no">{item.teamNo}</div>
                           <h3 className="podium-team-name">{item.teamName}</h3>
                           <div className="podium-school">{item.school}</div>
+                          {item.members && (
+                            <div className="podium-members" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '4px', fontWeight: '500' }}>
+                              成員：{Array.isArray(item.members) ? item.members.join('、') : item.members}
+                            </div>
+                          )}
                           <div className="podium-prize">
                             <span className="prize-label">獲獎獎金</span>
                             <span className="prize-amount">{item.prize}</span>
@@ -1269,6 +1274,11 @@ function App() {
                               </div>
                               <h4 className="honorable-team">{item.teamName}</h4>
                               <div className="honorable-school">{item.school}</div>
+                              {item.members && (
+                                <div className="honorable-members" style={{ fontSize: '0.8rem', color: 'var(--text-light)', marginTop: '2px' }}>
+                                  成員：{Array.isArray(item.members) ? item.members.join('、') : item.members}
+                                </div>
+                              )}
                               <div className="honorable-footer">
                                 <span className="honorable-prize">{item.prize}</span>
                                 <span className="honorable-stats">解題 {item.solved} 題 ({item.penalty}分)</span>
@@ -1352,7 +1362,12 @@ function App() {
                                 {row.teamName}
                               </td>
                               <td style={{ color: 'var(--text-secondary)' }}>
-                                {row.school}
+                                <div>{row.school}</div>
+                                {row.members && (
+                                  <div style={{ fontSize: '0.8rem', color: 'var(--text-light)', marginTop: '2px' }}>
+                                    成員：{Array.isArray(row.members) ? row.members.join('、') : row.members}
+                                  </div>
+                                )}
                               </td>
                               <td style={{ textAlign: 'center', fontWeight: '800', color: 'var(--primary-navy)', fontSize: '1.05rem' }}>
                                 {row.solved}
