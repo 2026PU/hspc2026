@@ -1230,6 +1230,29 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
+.footer-developer {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.footer-developer a {
+  color: var(--accent-gold);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.footer-developer a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 1024px) {
   .hero-title {
@@ -1652,6 +1675,34 @@
 }
 
 .podium-rank-3 .podium-award-badge {
+  background: linear-gradient(135deg, #b45309, #78350f);
+  color: #ffffff;
+}
+
+/* Award-specific overrides */
+.podium-card.podium-award-銀獎 {
+  border-color: #94a3b8;
+}
+
+.podium-card.podium-award-銀獎 .podium-award-badge {
+  background: linear-gradient(135deg, #94a3b8, #64748b);
+  color: #ffffff;
+}
+
+.podium-card.podium-award-金獎 {
+  border-color: #f59e0b;
+}
+
+.podium-card.podium-award-金獎 .podium-award-badge {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #ffffff;
+}
+
+.podium-card.podium-award-銅獎 {
+  border-color: #d97706;
+}
+
+.podium-card.podium-award-銅獎 .podium-award-badge {
   background: linear-gradient(135deg, #b45309, #78350f);
   color: #ffffff;
 }

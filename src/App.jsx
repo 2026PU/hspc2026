@@ -1241,7 +1241,7 @@ function App() {
                       {podiumAwards.map((item) => (
                         <div
                           key={item.rank}
-                          className={`podium-card podium-rank-${item.rank} ${item.rank === 1 ? 'podium-first' : ''}`}
+                          className={`podium-card podium-rank-${item.rank} ${item.award ? `podium-award-${item.award}` : ''} ${item.rank === 1 ? 'podium-first' : ''}`}
                         >
                           <div className="podium-crown">
                             <span className="podium-medal">{item.awardIcon}</span>
@@ -1680,6 +1680,17 @@ function App() {
           </div>
           <div className="footer-credit">
             © {data.contest.year} 靜宜大學資訊學院 版權所有. Designed for {data.contest.abbr}.
+          </div>
+          <div className="footer-developer">
+            <span>網頁開發與維護：</span>
+            <a href="https://github.com/archie0732" target="_blank" rel="noopener noreferrer">
+              archie0732 (GitHub)
+            </a>
+            <span style={{ opacity: 0.4 }}>|</span>
+            <span>專案 GitHub 倉庫：</span>
+            <a href="https://github.com/archie0732/hspc2026" target="_blank" rel="noopener noreferrer">
+              archie0732/hspc2026
+            </a>
           </div>
         </div>
       </footer>
