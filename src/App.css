@@ -2045,6 +2045,12 @@
   border: 1px solid var(--border-color);
 }
 
+.award-缺考 {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
 /* Problem Status Badges */
 .prob-status {
   display: flex;

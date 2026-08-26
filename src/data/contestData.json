@@ -452,12 +452,12 @@
       },
       {
         "rank": 9,
-        "award": "參賽證明",
-        "awardIcon": "🏅",
+        "award": "缺考",
+        "awardIcon": "❌",
         "teamNo": "S09",
         "teamName": "花態柳情山容水意",
         "school": "清水高中",
-        "prize": "參賽證明",
+        "prize": "缺考",
         "solved": 0,
         "penalty": 0
       }
@@ -548,7 +548,7 @@
         "penalty": 498,
         "award": "佳作",
         "problems": {
-          "A": { "solved": false, "time": 0, "tries": 6 },
+          "A": { "solved": false, "time": 0, "tries": 20 },
           "B": { "solved": true, "time": 177, "tries": 4 },
           "C": { "solved": true, "time": 20, "tries": 2 },
           "D": { "solved": true, "time": 47, "tries": 2 },
@@ -568,7 +568,7 @@
           "A": { "solved": false, "time": 0, "tries": 0 },
           "B": { "solved": false, "time": 0, "tries": 0 },
           "C": { "solved": true, "time": 123, "tries": 3 },
-          "D": { "solved": false, "time": 0, "tries": 0 },
+          "D": { "solved": false, "time": 0, "tries": 1 },
           "E": { "solved": true, "time": 76, "tries": 1 },
           "F": { "solved": true, "time": 190, "tries": 1 }
         }
@@ -614,7 +614,7 @@
         "school": "清水高中",
         "solved": 0,
         "penalty": 0,
-        "award": "參賽證明",
+        "award": "缺考",
         "problems": {
           "A": { "solved": false, "time": 0, "tries": 0 },
           "B": { "solved": false, "time": 0, "tries": 0 },
