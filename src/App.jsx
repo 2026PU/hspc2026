@@ -1193,14 +1193,6 @@ function App() {
                     <span className="results-meta-item">📅 公告日期：{data.results?.publishDate || '2026-08-26'}</span>
                     <span className="results-meta-item">🏫 競賽地點：靜宜大學 主顧樓</span>
                     <span className="results-meta-item">💻 評測規則：ICPC 競賽規則</span>
-                    <button
-                      type="button"
-                      className="admin-launch-badge"
-                      onClick={handleOpenAdmin}
-                      title="管理員身份線上維護成績、修改名次與發布"
-                    >
-                      ⚙️ 線上修改成績 {isAdminLoggedIn ? '🔓 (已登入)' : '🔒'}
-                    </button>
                   </div>
                 </div>
               </div>
