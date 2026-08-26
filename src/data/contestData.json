@@ -386,8 +386,8 @@
       },
       {
         "rank": 3,
-        "award": "銅獎",
-        "awardIcon": "🥉",
+        "award": "銀獎",
+        "awardIcon": "🥈",
         "teamNo": "S02",
         "teamName": "Beyond",
         "school": "僑泰高中",
@@ -397,8 +397,8 @@
       },
       {
         "rank": 4,
-        "award": "佳作",
-        "awardIcon": "🎖️",
+        "award": "銅獎",
+        "awardIcon": "🥉",
         "teamNo": "S01",
         "teamName": "萍水相逢打完散",
         "school": "復旦高中",
@@ -408,8 +408,8 @@
       },
       {
         "rank": 5,
-        "award": "佳作",
-        "awardIcon": "🎖️",
+        "award": "銅獎",
+        "awardIcon": "🥉",
         "teamNo": "S03",
         "teamName": "旗開得勝",
         "school": "新北高工",
@@ -560,7 +560,7 @@
         "school": "僑泰高中",
         "solved": 6,
         "penalty": 448,
-        "award": "銅獎",
+        "award": "銀獎",
         "problems": {
           "A": {
             "solved": false,
@@ -601,7 +601,7 @@
         "school": "復旦高中",
         "solved": 6,
         "penalty": 587,
-        "award": "佳作",
+        "award": "銅獎",
         "problems": {
           "A": {
             "solved": false,
@@ -642,7 +642,7 @@
         "school": "新北高工",
         "solved": 0,
         "penalty": 0,
-        "award": "佳作",
+        "award": "銅獎",
         "problems": {
           "A": {
             "solved": false,
