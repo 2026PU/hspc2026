@@ -3,16 +3,12 @@ import initialData from './data/contestData.json'
 import './App.css'
 
 function App() {
-  // Reactive contest data state with localStorage persistence
+  // Reactive contest data state (always use published contestData.json)
   const [data, setData] = useState(() => {
     try {
-      const saved = localStorage.getItem('hspc2026_custom_data')
-      if (saved) {
-        const parsed = JSON.parse(saved)
-        return { ...initialData, ...parsed }
-      }
+      localStorage.removeItem('hspc2026_custom_data')
     } catch (e) {
-      console.error('Failed to load saved contest data', e)
+      console.error('Failed to clear old custom data', e)
     }
     return initialData
   })
