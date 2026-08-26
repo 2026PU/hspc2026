@@ -1,7 +1,7 @@
 {
   "_comment": "這是網頁資料設定檔，若要更新網頁內容，請直接修改底下的對應欄位值。詳細說明請參考專案根目錄的 README.md。",
   "_results_announcement_toggle": "【成績公佈開關】：將底下的 isAnnounced 設為 true 即公佈得獎名單；設為 false 即不公佈（目前為 false 不公佈）。",
-  "isAnnounced": false,
+  "isAnnounced": true,
   "adminPassword": "hspc2026",
   "contest": {
     "year": "2026",
@@ -258,8 +258,8 @@
   ],
   "faq": [],
   "results": {
-    "isAnnounced": false,
-    "status": "待公佈",
+    "isAnnounced": true,
+    "status": "已公佈",
     "certificateNotice": "獎狀將另行以紙本寄送，預計 7 個工作天。",
     "certificateDetails": "本屆競賽獎狀將於賽後成績審查公告後，另行以紙本公文方式寄送至各校教務處/指導單位，預計於 7 個工作天內寄達，請各參賽隊伍留意收件。",
     "publishDate": "115年08月26日 (賽後公佈)",
