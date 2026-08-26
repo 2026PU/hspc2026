@@ -441,8 +441,8 @@
       },
       {
         "rank": 8,
-        "award": "佳作",
-        "awardIcon": "🎖️",
+        "award": "參賽證明",
+        "awardIcon": "🏅",
         "teamNo": "S06",
         "teamName": "BS",
         "school": "新民高中",
@@ -765,7 +765,7 @@
         "school": "新民高中",
         "solved": 0,
         "penalty": 0,
-        "award": "佳作",
+        "award": "參賽證明",
         "problems": {
           "A": {
             "solved": false,
