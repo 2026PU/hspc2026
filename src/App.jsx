@@ -21,6 +21,11 @@ function App() {
   const [activeSection, setActiveSection] = useState('home')
   const [scoreboardFilter, setScoreboardFilter] = useState('')
 
+  // Photo Gallery & Lightbox States
+  const [lightboxIndex, setLightboxIndex] = useState(null)
+  const [galleryFilter, setGalleryFilter] = useState('all')
+  const [gallerySearch, setGallerySearch] = useState('')
+
   // Admin Mode States
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(() => {
     try {
@@ -72,7 +77,9 @@ function App() {
     if (passwordInput.trim() === correctPassword) {
       try {
         sessionStorage.setItem('hspc2026_admin_auth', 'true')
-      } catch {}
+      } catch (err) {
+        console.warn('Failed to set sessionStorage', err)
+      }
       setIsAdminLoggedIn(true)
       setIsPasswordModalOpen(false)
       setPasswordInput('')
@@ -93,7 +100,9 @@ function App() {
   const handleAdminLogout = () => {
     try {
       sessionStorage.removeItem('hspc2026_admin_auth')
-    } catch {}
+    } catch (err) {
+      console.warn('Failed to clear sessionStorage', err)
+    }
     setIsAdminLoggedIn(false)
     setIsAdminModalOpen(false)
     showToast('🚪 已登出管理員身份', 'info')
@@ -263,7 +272,9 @@ function App() {
     if (window.confirm('確定要清除自訂修改，恢復為原始預設資料嗎？')) {
       try {
         localStorage.removeItem('hspc2026_custom_data')
-      } catch {}
+      } catch (err) {
+        console.warn('Failed to clear localStorage', err)
+      }
       setData(initialData)
       setAdminFormData({
         isAnnounced: Boolean(initialData.isAnnounced ?? initialData.results?.isAnnounced),
@@ -274,12 +285,32 @@ function App() {
     }
   }
 
-  // View state: 'home' or 'results'
+  // Lightbox keyboard navigation handler
+  useEffect(() => {
+    if (lightboxIndex === null) return
+    const photosList = data.photos || []
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setLightboxIndex(null)
+      } else if (e.key === 'ArrowRight') {
+        setLightboxIndex((prev) => (prev !== null && photosList.length ? (prev + 1) % photosList.length : 0))
+      } else if (e.key === 'ArrowLeft') {
+        setLightboxIndex((prev) => (prev !== null && photosList.length ? (prev - 1 + photosList.length) % photosList.length : 0))
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [lightboxIndex, data.photos])
+
+  // View state: 'home', 'results', or 'gallery'
   const [currentView, setCurrentView] = useState(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.toLowerCase()
       if (hash === '#results' || hash === '#/results') {
         return 'results'
+      }
+      if (hash === '#gallery' || hash === '#/gallery' || hash === '#photos' || hash === '#/photos') {
+        return 'gallery'
       }
     }
     return 'home'
@@ -291,6 +322,9 @@ function App() {
       const hash = window.location.hash.toLowerCase()
       if (hash === '#results' || hash === '#/results') {
         setCurrentView('results')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else if (hash === '#gallery' || hash === '#/gallery' || hash === '#photos' || hash === '#/photos') {
+        setCurrentView('gallery')
         window.scrollTo({ top: 0, behavior: 'smooth' })
       } else {
         setCurrentView('home')
@@ -317,6 +351,10 @@ function App() {
       window.location.hash = '#results'
       setCurrentView('results')
       window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else if (view === 'gallery') {
+      window.location.hash = '#gallery'
+      setCurrentView('gallery')
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
       if (currentView !== 'home') {
         setCurrentView('home')
@@ -340,11 +378,6 @@ function App() {
         }
       }
     }
-  }
-
-  // Smooth scroll to element and close mobile menu
-  const scrollToSection = (id) => {
-    navigateTo('home', id)
   }
 
   // Monitor scroll to set active nav link
@@ -403,7 +436,7 @@ function App() {
         item.teamNo.toLowerCase().includes(term) ||
         (item.award && item.award.toLowerCase().includes(term))
     )
-  }, [scoreboardFilter, data.results?.scoreboard])
+  }, [scoreboardFilter, data.results])
 
   // Filter teams list when pending announcement
   const filteredTeamsList = useMemo(() => {
@@ -416,7 +449,7 @@ function App() {
         item.school.toLowerCase().includes(term) ||
         item.teamNo.toLowerCase().includes(term)
     )
-  }, [scoreboardFilter, data.results?.teamsList])
+  }, [scoreboardFilter, data.results])
 
   // Lookup map for teams by teamNo
   const teamByNo = useMemo(() => {
@@ -427,19 +460,19 @@ function App() {
       })
     }
     return map
-  }, [data.results?.teamsList])
+  }, [data.results])
 
   // Podium awards (Gold, Silver, Bronze - Top 4)
   const podiumAwards = useMemo(() => {
     if (!data.results || !data.results.awards) return []
     return data.results.awards.filter((a) => (a.award === '金獎' || a.award === '銀獎' || a.award === '銅獎' || a.rank <= 4) && a.teamName)
-  }, [data.results?.awards])
+  }, [data.results])
 
   // Honorable mentions (佳作)
   const honorableAwards = useMemo(() => {
     if (!data.results || !data.results.awards) return []
     return data.results.awards.filter((a) => a.award === '佳作' && a.teamName)
-  }, [data.results?.awards])
+  }, [data.results])
 
   return (
     <>
@@ -554,6 +587,16 @@ function App() {
                 </span>
               </li>
 
+              {/* Photos Gallery Navigation Link */}
+              <li>
+                <span
+                  className={`nav-link nav-link-gallery-tab ${currentView === 'gallery' ? 'active' : ''}`}
+                  onClick={() => navigateTo('gallery')}
+                >
+                  📸 活動照片
+                </span>
+              </li>
+
               <li>
                 <span
                   className={`nav-link ${currentView === 'home' && activeSection === 'contact' ? 'active' : ''}`}
@@ -604,21 +647,29 @@ function App() {
             </h1>
             <div className="hero-subtitle">{data.contest.englishTitle}</div>
             <div className="hero-tag">HSPC {data.contest.year}</div>
-            <div className="hero-date-badge">競賽日期：{data.contest.dateDisplay}</div>
-
-            {/* Quick Button to Results Page */}
-            {data.results && (
-              <div style={{ marginTop: '20px' }}>
-                <button
-                  onClick={() => navigateTo('results')}
-                  className="btn btn-results-hero"
-                >
-                  {isAnnounced
-                    ? '🏆 競賽結果已出爐！點此查看得獎名單與成績 ➔'
-                    : '🏆 前往得獎名單及成績專區 ➔'}
-                </button>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '10px' }}>
+              <div className="hero-date-badge">競賽日期：{data.contest.dateDisplay}</div>
+              <div className="hero-date-badge" style={{ backgroundColor: 'rgba(255, 255, 255, 0.2)', border: '1px solid rgba(255, 255, 255, 0.4)' }}>
+                ● 活動狀態：已圓滿結束
               </div>
-            )}
+            </div>
+
+            {/* Quick Buttons to Results Page & Photos Gallery */}
+            <div style={{ marginTop: '20px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => navigateTo('results')}
+                className="btn btn-results-hero"
+              >
+                🏆 觀看得獎名單與成績 ➔
+              </button>
+              <button
+                onClick={() => navigateTo('gallery')}
+                className="btn btn-accent"
+                style={{ backgroundColor: 'var(--accent-orange)', color: '#ffffff' }}
+              >
+                📸 觀看活動照片花絮 (共65張) ➔
+              </button>
+            </div>
           </div>
         </section>
 
@@ -634,23 +685,22 @@ function App() {
               </div>
 
               <div className="info-item">
-                <h3 className="info-title">報名方式</h3>
+                <h3 className="info-title">報名方式與活動狀態</h3>
                 <div className="info-text">
+                  <p>活動狀態：<span className="status-tag-ended">● 已結束</span></p>
                   <p>報名時間：{data.registration.period}</p>
                   <p>報名費用：<strong>{data.registration.fee}</strong></p>
                   <div className="registration-box">
                     <div className="registration-header">線上組隊報名：</div>
                     <div className="registration-buttons">
                       {data.registration.groups.map((group, index) => (
-                        <a
+                        <span
                           key={index}
-                          href={group.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn btn-accent"
+                          className="btn btn-secondary"
+                          style={{ cursor: 'default', opacity: 0.9, backgroundColor: '#e2e8f0', color: '#334155' }}
                         >
-                          {group.name} [立即報名]
-                        </a>
+                          {group.name} [{group.status || '已結束'}]
+                        </span>
                       ))}
                     </div>
                   </div>
@@ -1131,6 +1181,94 @@ function App() {
           </div>
         </section>
 
+        {/* Home Photo Gallery Preview Section */}
+        <section className="home-gallery-section">
+          <div className="container">
+            <div className="home-gallery-header">
+              <div className="home-gallery-title-box">
+                <h2>📸 競賽活動精彩花絮</h2>
+                <p>紀錄 2026 HSPC 全國高中職程式設計競賽參賽團隊、現場解題與頒獎典禮盛況 (全系列共 {data.photos?.length || 65} 張)</p>
+              </div>
+              <button
+                onClick={() => navigateTo('gallery')}
+                className="btn-view-all-photos"
+              >
+                觀看全部 65 張照片 ➔
+              </button>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+              {/* Highlight main group photo */}
+              <div
+                onClick={() => navigateTo('gallery')}
+                style={{
+                  gridColumn: typeof window !== 'undefined' && window.innerWidth > 768 ? 'span 2' : 'span 1',
+                  position: 'relative',
+                  borderRadius: 'var(--radius-md)',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  minHeight: '260px',
+                  boxShadow: 'var(--shadow-md)'
+                }}
+              >
+                <img
+                  src="./photos/000_group.jpg"
+                  alt="2026 HSPC 頒獎典禮團體大合照"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  padding: '20px',
+                  background: 'linear-gradient(to top, rgba(10,37,64,0.92), transparent)',
+                  color: '#ffffff'
+                }}>
+                  <div style={{ background: 'linear-gradient(135deg, #ff5f00, #f2a900)', display: 'inline-block', padding: '3px 10px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 800, marginBottom: '6px' }}>
+                    🏆 經典團體大合照 (首圖)
+                  </div>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, margin: 0 }}>2026 HSPC 團體大合照與頒獎典禮</h3>
+                  <p style={{ fontSize: '0.85rem', opacity: 0.9, margin: '4px 0 0 0' }}>金牌獎、銀牌獎、銅牌獎得獎隊伍與大會貴賓、評審合影留念</p>
+                </div>
+              </div>
+
+              {/* 2 sub photos preview */}
+              {(data.photos || []).slice(1, 3).map((p, i) => (
+                <div
+                  key={i}
+                  onClick={() => navigateTo('gallery')}
+                  style={{
+                    position: 'relative',
+                    borderRadius: 'var(--radius-md)',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    minHeight: '260px',
+                    boxShadow: 'var(--shadow-md)'
+                  }}
+                >
+                  <img
+                    src={p.url}
+                    alt={p.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    padding: '16px',
+                    background: 'linear-gradient(to top, rgba(10,37,64,0.85), transparent)',
+                    color: '#ffffff'
+                  }}>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 700, margin: 0 }}>{p.title}</h4>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Contact Info Section */}
         <section id="contact" className="section-wrapper" style={{ borderBottom: 'none' }}>
           <div className="container">
@@ -1164,6 +1302,142 @@ function App() {
           </div>
         </section>
           </>
+        ) : currentView === 'gallery' ? (
+          /* ====================================================================
+             PHOTO GALLERY (活動照片集錦) PAGE VIEW
+             ==================================================================== */
+          <div className="gallery-page-view fade-in">
+            {/* Gallery Hero Banner */}
+            <section className="gallery-hero">
+              <div className="container">
+                <div className="gallery-hero-content">
+                  <div className="breadcrumb-nav" style={{ justifyContent: 'center', marginBottom: '14px' }}>
+                    <span className="breadcrumb-link" onClick={() => navigateTo('home', 'home')}>首頁</span>
+                    <span className="breadcrumb-separator">/</span>
+                    <span className="breadcrumb-current">📸 活動照片集錦</span>
+                  </div>
+                  <div className="gallery-badge">2026 HSPC 全國高中職程式設計競賽</div>
+                  <h1 className="gallery-main-title">
+                    <span>活動照片</span> 與 精彩花絮
+                  </h1>
+                  <p className="gallery-subtitle">
+                    紀錄參賽選手專注解題、團隊合作與頒獎典禮的光榮時刻 (全系列共 {data.photos?.length || 65} 張照片)
+                  </p>
+                  <div className="gallery-status-badge">
+                    <span className="status-dot-ended"></span>
+                    <span>活動狀態：已圓滿結束</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Main Container */}
+            <div className="container">
+              {/* Featured First Photo Section (第一張請來當網頁照片的第一張) */}
+              <section className="featured-photo-section">
+                <div className="featured-photo-card">
+                  <div
+                    className="featured-photo-img-wrapper"
+                    onClick={() => setLightboxIndex(0)}
+                  >
+                    <span className="featured-badge-top">⭐️ 網頁照片首圖 (頒獎典禮與團體大合照)</span>
+                    <img
+                      src="./photos/000_group.jpg"
+                      alt="2026 HSPC 團體大合照"
+                      className="featured-photo-img"
+                    />
+                  </div>
+                  <div className="featured-photo-info">
+                    <div className="featured-photo-tag">🏆 榮耀時刻 (MAIN FEATURED PHOTO)</div>
+                    <h2 className="featured-photo-title">2026 HSPC 頒獎典禮與團體大合照</h2>
+                    <p className="featured-photo-desc">
+                      榮獲金牌獎、銀牌獎、銅牌獎的優秀參賽隊伍選手，攜帶榮耀獎牌與大會頒發獎狀，與靜宜大學資訊學院師長及評審老師合影留念！
+                    </p>
+                    <div>
+                      <button
+                        className="btn-featured-view"
+                        onClick={() => setLightboxIndex(0)}
+                      >
+                        <span>🔍 點擊查看高清大圖 (第 1 / {data.photos?.length || 65} 張)</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Filter and Search Controls */}
+              <div className="gallery-controls-bar">
+                <div className="gallery-filter-tabs">
+                  <button
+                    className={`gallery-tab-btn ${galleryFilter === 'all' ? 'active' : ''}`}
+                    onClick={() => setGalleryFilter('all')}
+                  >
+                    全部照片 ({data.photos?.length || 65})
+                  </button>
+                  <button
+                    className={`gallery-tab-btn ${galleryFilter === '大合照與頒獎' ? 'active' : ''}`}
+                    onClick={() => setGalleryFilter('大合照與頒獎')}
+                  >
+                    頒獎與大合照
+                  </button>
+                  <button
+                    className={`gallery-tab-btn ${galleryFilter === '競賽花絮' ? 'active' : ''}`}
+                    onClick={() => setGalleryFilter('競賽花絮')}
+                  >
+                    現場競賽花絮
+                  </button>
+                </div>
+
+                <input
+                  type="text"
+                  placeholder="🔍 搜尋照片名稱或編號..."
+                  className="gallery-search-input"
+                  value={gallerySearch}
+                  onChange={(e) => setGallerySearch(e.target.value)}
+                />
+              </div>
+
+              {/* Photo Grid */}
+              <div className="gallery-grid">
+                {(data.photos || [])
+                  .filter((photo) => {
+                    const matchesCategory =
+                      galleryFilter === 'all' || photo.category === galleryFilter
+                    const matchesSearch =
+                      !gallerySearch ||
+                      photo.title.toLowerCase().includes(gallerySearch.toLowerCase()) ||
+                      String(photo.id).includes(gallerySearch)
+                    return matchesCategory && matchesSearch
+                  })
+                  .map((photo, index) => {
+                    const realIndex = (data.photos || []).findIndex((p) => p.id === photo.id)
+                    return (
+                      <div
+                        key={photo.id}
+                        className="gallery-card"
+                        onClick={() => setLightboxIndex(realIndex >= 0 ? realIndex : index)}
+                      >
+                        <div className="gallery-card-img-box">
+                          <img
+                            src={photo.url}
+                            alt={photo.title}
+                            className="gallery-card-img"
+                            loading="lazy"
+                          />
+                          <span className="gallery-card-number">#{String(photo.id).padStart(2, '0')}</span>
+                          <div className="gallery-card-overlay">
+                            <div className="gallery-zoom-icon">🔍</div>
+                          </div>
+                        </div>
+                        <div className="gallery-card-info">
+                          <div className="gallery-card-title">{photo.title}</div>
+                        </div>
+                      </div>
+                    )
+                  })}
+              </div>
+            </div>
+          </div>
         ) : (
           /* ====================================================================
              AWARDS & RESULTS (得獎名單與成績) PAGE VIEW
@@ -1679,6 +1953,10 @@ function App() {
             <a href="https://github.com/archie0732/hspc2026" target="_blank" rel="noopener noreferrer">
               archie0732/hspc2026
             </a>
+            <span style={{ opacity: 0.4 }}>|</span>
+            <span onClick={handleOpenAdmin} style={{ cursor: 'pointer', opacity: 0.85 }} title="線上管理員後台">
+              ⚙️ 管理後台
+            </span>
           </div>
         </div>
       </footer>
@@ -2049,6 +2327,86 @@ function App() {
                 <button type="button" className="btn btn-primary btn-action-save" onClick={handleSaveAdmin}>
                   💾 儲存並即時套用
                 </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Lightbox Photo Viewer Modal */}
+      {lightboxIndex !== null && data.photos && data.photos[lightboxIndex] && (
+        <div
+          className="lightbox-modal-overlay"
+          onClick={() => setLightboxIndex(null)}
+        >
+          <div
+            className="lightbox-modal-container"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="lightbox-close-btn"
+              onClick={() => setLightboxIndex(null)}
+              title="關閉 (Esc)"
+            >
+              &times;
+            </button>
+
+            {/* Previous Button */}
+            <button
+              className="lightbox-nav-btn lightbox-nav-prev"
+              onClick={() =>
+                setLightboxIndex(
+                  (lightboxIndex - 1 + data.photos.length) % data.photos.length
+                )
+              }
+              title="上一張 (←)"
+            >
+              &#10094;
+            </button>
+
+            {/* Image Box */}
+            <div className="lightbox-img-wrapper">
+              <img
+                src={data.photos[lightboxIndex].url}
+                alt={data.photos[lightboxIndex].title}
+                className="lightbox-img"
+              />
+            </div>
+
+            {/* Next Button */}
+            <button
+              className="lightbox-nav-btn lightbox-nav-next"
+              onClick={() =>
+                setLightboxIndex((lightboxIndex + 1) % data.photos.length)
+              }
+              title="下一張 (→)"
+            >
+              &#10095;
+            </button>
+
+            {/* Caption & Info Box */}
+            <div className="lightbox-caption-box">
+              <div className="lightbox-caption-counter">
+                照片 {lightboxIndex + 1} / {data.photos.length}
+              </div>
+              <h3 className="lightbox-caption-title">
+                {data.photos[lightboxIndex].title}
+              </h3>
+              {data.photos[lightboxIndex].description && (
+                <p style={{ fontSize: '0.9rem', opacity: 0.85, margin: '4px 0 0 0' }}>
+                  {data.photos[lightboxIndex].description}
+                </p>
+              )}
+              <div className="lightbox-actions">
+                <a
+                  href={data.photos[lightboxIndex].url}
+                  download={`HSPC2026_Photo_${lightboxIndex + 1}.jpg`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="lightbox-download-link"
+                >
+                  📥 下載相片
+                </a>
               </div>
             </div>
           </div>
